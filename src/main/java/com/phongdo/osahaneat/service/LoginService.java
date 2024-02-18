@@ -1,7 +1,9 @@
 package com.phongdo.osahaneat.service;
 
 import com.phongdo.osahaneat.dto.UserDTO;
+import com.phongdo.osahaneat.entity.Roles;
 import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.payload.request.SignupRequest;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,24 @@ public class LoginService implements LoginServiceImp {
         List<Users> usersList = userRepository.findByUserNameAndPassword(username,password);
 
         return usersList.size()>0;
+    }
+
+    @Override
+    public boolean addUser(SignupRequest signupRequest) {
+
+        Roles roles = new Roles();
+        roles.setId(signupRequest.getRoleId());
+
+        Users users = new Users();
+        users.setFullname(signupRequest.getFullname());
+        users.setUserName(signupRequest.getEmail());
+        users.setPassword(signupRequest.getPassword());
+        users.setRoles(roles);
+        try {
+            userRepository.save(users);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }
