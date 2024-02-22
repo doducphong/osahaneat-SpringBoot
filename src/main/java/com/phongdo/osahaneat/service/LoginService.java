@@ -7,6 +7,7 @@ import com.phongdo.osahaneat.payload.request.SignupRequest;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class LoginService implements LoginServiceImp {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Override
     public List<UserDTO> getAllUser(){
         List<Users> listUser = userRepository.findAll();
@@ -28,9 +31,6 @@ public class LoginService implements LoginServiceImp {
             userDTO.setFullname(users.getFullname());
             userDTO.setId(users.getId());
             userDTO.setCreateDate(users.getCreateDate());
-
-            System.out.println(users.getFullname());
-
             userDTOList.add(userDTO);
         }
         return userDTOList;
@@ -38,9 +38,9 @@ public class LoginService implements LoginServiceImp {
 
     @Override
     public boolean checkLogin(String username, String password) {
-        List<Users> usersList = userRepository.findByUserNameAndPassword(username,password);
+        Users user = userRepository.findByUserName(username);
+         return passwordEncoder.matches(password,user.getPassword());
 
-        return usersList.size()>0;
     }
 
     @Override
