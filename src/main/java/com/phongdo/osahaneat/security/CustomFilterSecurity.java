@@ -11,9 +11,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +23,8 @@ public class CustomFilterSecurity {
 
     @Autowired
     CustomUserDetailService customUserDetailService;
+    @Autowired
+    CustomJwtFilter customJwtFilter;
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws  Exception{
 
@@ -34,11 +38,13 @@ public class CustomFilterSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
+                .sessionManagement((session) -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests()
                 .requestMatchers("/login/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic(Customizer.withDefaults());
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
