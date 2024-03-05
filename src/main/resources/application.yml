@@ -13,8 +13,9 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+
 jwt:
   privateKey: poXjIr3HD1AFybYNff1aoJu/hyzv1Xwqv+7J2Q9tnXQ=
 
 fileUpload:
-  rootPath: D:\uploads
+  rootPath: E:\uploads

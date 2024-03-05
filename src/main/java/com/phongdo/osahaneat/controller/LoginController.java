@@ -38,7 +38,7 @@ public class LoginController {
 
         }
         else {
-            responseData.setData("");
+            responseData.setData(null);
             responseData.setSuccess(false);
 
         }

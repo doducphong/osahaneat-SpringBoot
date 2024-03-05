@@ -1,7 +1,9 @@
 package com.phongdo.osahaneat.controller;
 
 import com.phongdo.osahaneat.payload.ResponseData;
+import com.phongdo.osahaneat.service.RestaurantService;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
+import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,10 +21,19 @@ public class RestaurantController {
     @Autowired
     FileServiceImp fileServiceImp;
 
+    @Autowired
+    RestaurantServiceImp restaurantServiceImp;
+
     @PostMapping()
-    public ResponseEntity<?> createRestaurant(@RequestParam MultipartFile file){
+    public ResponseEntity<?> createRestaurant(@RequestParam MultipartFile file,
+                                              @RequestParam String title,
+                                              @RequestParam String sub_title,
+                                              @RequestParam String description,
+                                              @RequestParam boolean is_freeship,
+                                              @RequestParam String address,
+                                              @RequestParam String open_time){
         ResponseData responseData = new ResponseData();
-        boolean isSuccess = fileServiceImp.saveFile(file);
+        boolean isSuccess = restaurantServiceImp.insertRestaurant(file,title,sub_title,description,is_freeship,address,open_time);
         responseData.setData(isSuccess);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
