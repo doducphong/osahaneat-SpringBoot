@@ -19,6 +19,7 @@ import java.beans.Encoder;
 import java.util.Base64;
 
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/login")
 public class LoginController {

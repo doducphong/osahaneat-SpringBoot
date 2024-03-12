@@ -20,6 +20,7 @@ public class LoginService implements LoginServiceImp {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Override
     public List<UserDTO> getAllUser(){
         List<Users> listUser = userRepository.findAll();
@@ -52,7 +53,8 @@ public class LoginService implements LoginServiceImp {
         Users users = new Users();
         users.setFullname(signupRequest.getFullname());
         users.setUserName(signupRequest.getEmail());
-        users.setPassword(signupRequest.getPassword());
+        String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
+        users.setPassword(encodePassword);
         users.setRoles(roles);
         try {
             userRepository.save(users);
