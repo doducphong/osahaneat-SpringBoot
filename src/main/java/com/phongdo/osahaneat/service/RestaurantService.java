@@ -28,6 +28,7 @@ public class RestaurantService implements RestaurantServiceImp {
     @Autowired
     RestaurantRepository restaurantRepository;
 
+
     @Override
     public boolean insertRestaurant(MultipartFile file, String title, String sub_title, String description, boolean is_freeship, String address, String open_time) {
         boolean isInsertSuccess = false;

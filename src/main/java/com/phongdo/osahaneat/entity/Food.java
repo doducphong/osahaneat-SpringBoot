@@ -17,6 +17,8 @@ public class Food {
     private String timeShip;
     @Column(name = "price")
     private double price;
+    @Column(name = "is_freeship")
+    private boolean isFreeShip;
 
     @OneToMany(mappedBy = "food")
     private Set<OrderItem> listOrderItem;
@@ -27,6 +29,14 @@ public class Food {
 
     public void setListOrderItem(Set<OrderItem> listOrderItem) {
         this.listOrderItem = listOrderItem;
+    }
+
+    public boolean isFreeShip() {
+        return isFreeShip;
+    }
+
+    public void setFreeShip(boolean freeShip) {
+        isFreeShip = freeShip;
     }
 
     @ManyToOne
