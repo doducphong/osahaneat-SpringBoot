@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Entity(name = "menu")
-public class Menu {
+public class MenuRestaurant {
 
     @EmbeddedId
     KeyMenu keys;

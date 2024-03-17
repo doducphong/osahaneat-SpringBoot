@@ -18,13 +18,13 @@ public class Category {
     private Date createDate;
 
     @OneToMany(mappedBy = "category")
-    private Set<Menu> listMenu;
+    private Set<MenuRestaurant> listMenu;
 
-    public Set<Menu> getListMenu() {
+    public Set<MenuRestaurant> getListMenu() {
         return listMenu;
     }
 
-    public void setListMenu(Set<Menu> listMenu) {
+    public void setListMenu(Set<MenuRestaurant> listMenu) {
         this.listMenu = listMenu;
     }
 
