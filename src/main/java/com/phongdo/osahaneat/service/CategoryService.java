@@ -21,7 +21,7 @@ public class CategoryService implements CategoryServiceImp {
     CategoryRepository categoryRepository;
     @Override
     public List<CategoryDTO> getCategoryHomePage() {
-        PageRequest pageRequest = PageRequest.of(0,2, Sort.by("id"));
+        PageRequest pageRequest = PageRequest.of(0,3, Sort.by("id"));
         Page<Category> listCategory = categoryRepository.findAll(pageRequest);
         List<CategoryDTO> listCategoryDTOS = new ArrayList<>();
         for (Category data : listCategory) {

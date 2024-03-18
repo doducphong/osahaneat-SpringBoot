@@ -41,7 +41,7 @@ public class CustomFilterSecurity {
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests()
-                .requestMatchers("/login/**","/restaurant/file/**").permitAll()
+                .requestMatchers("/login/**","/restaurant/file/**","/menu/file/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
