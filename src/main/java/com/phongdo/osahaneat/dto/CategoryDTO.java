@@ -6,6 +6,7 @@ public class CategoryDTO {
     private String name;
     List<MenuDTO> menus;
 
+
     public String getName() {
         return name;
     }

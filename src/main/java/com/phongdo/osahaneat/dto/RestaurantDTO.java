@@ -1,11 +1,32 @@
 package com.phongdo.osahaneat.dto;
 
+import java.util.Date;
+import java.util.List;
+
 public class RestaurantDTO {
     private String image;
     private String title;
     private double rating;
     private String subtitle;
     private boolean isFreeShip;
+    private Date openDate;
+    List<CategoryDTO> categoryDTOList;
+
+    public Date getOpenDate() {
+        return openDate;
+    }
+
+    public void setOpenDate(Date openDate) {
+        this.openDate = openDate;
+    }
+
+    public List<CategoryDTO> getCategoryDTOList() {
+        return categoryDTOList;
+    }
+
+    public void setCategoryDTOList(List<CategoryDTO> categoryDTOList) {
+        this.categoryDTOList = categoryDTOList;
+    }
 
     public String getImage() {
         return image;
