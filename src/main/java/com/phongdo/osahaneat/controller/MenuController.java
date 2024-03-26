@@ -31,7 +31,7 @@ public class MenuController {
             ){
 
         ResponseData responseData = new ResponseData();
-        menuService.createMenu(file,title,is_freeship,time_ship,price,cate_id);
+        responseData.setData(menuService.createMenu(file,title,is_freeship,time_ship,price,cate_id));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
