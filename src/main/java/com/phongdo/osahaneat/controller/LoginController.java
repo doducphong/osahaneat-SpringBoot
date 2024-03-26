@@ -18,7 +18,6 @@ import javax.crypto.SecretKey;
 import java.beans.Encoder;
 import java.util.Base64;
 
-
 @RestController
 @RequestMapping("/login")
 public class LoginController {

@@ -104,6 +104,7 @@ public class RestaurantService implements RestaurantServiceImp {
                 //menu
                 for (Food food:menuRestaurant.getCategory().getListFood()) {
                     MenuDTO menuDTO = new MenuDTO();
+                    menuDTO.setId(food.getId());
                     menuDTO.setTitle(food.getTitle());
                     menuDTO.setImage(food.getImage());
                     menuDTO.setFreeShip(food.isFreeShip());
