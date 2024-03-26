@@ -61,6 +61,7 @@ public class RestaurantService implements RestaurantServiceImp {
         Page<Restaurant> listData = restaurantRepository.findAll(pageRequest);
         for (Restaurant data : listData) {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
+            restaurantDTO.setId(data.getId());
             restaurantDTO.setImage(data.getImage());
             restaurantDTO.setTitle(data.getTitle());
             restaurantDTO.setFreeShip(data.isFreeship());
@@ -93,7 +94,7 @@ public class RestaurantService implements RestaurantServiceImp {
             restaurantDTO.setSubtitle(data.getSubTitle());
             restaurantDTO.setFreeShip(data.isFreeship());
             restaurantDTO.setRating(calculatorRating(data.getListRatingRestaurant()));
-
+            restaurantDTO.setDesc(data.getDesc());
             List<CategoryDTO> categoryDTOList = new ArrayList<>();
             //category
             for (MenuRestaurant menuRestaurant : data.getListMenu()) {
@@ -106,7 +107,8 @@ public class RestaurantService implements RestaurantServiceImp {
                     menuDTO.setTitle(food.getTitle());
                     menuDTO.setImage(food.getImage());
                     menuDTO.setFreeShip(food.isFreeShip());
-
+                    menuDTO.setDesc(food.getDesc());
+                    menuDTO.setPrice(food.getPrice());
                     menuDTOList.add(menuDTO);
                 }
                 categoryDTO.setMenus(menuDTOList);

@@ -4,13 +4,31 @@ import java.util.Date;
 import java.util.List;
 
 public class RestaurantDTO {
+    private int id;
     private String image;
     private String title;
     private double rating;
     private String subtitle;
     private boolean isFreeShip;
     private Date openDate;
+    private String desc;
     List<CategoryDTO> categoryDTOList;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Date getOpenDate() {
         return openDate;

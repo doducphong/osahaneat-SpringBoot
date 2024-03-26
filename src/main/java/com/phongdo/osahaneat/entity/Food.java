@@ -20,8 +20,19 @@ public class Food {
     @Column(name = "is_freeship")
     private boolean isFreeShip;
 
+    @Column(name = "description")
+    private String desc;
+
     @OneToMany(mappedBy = "food")
     private Set<OrderItem> listOrderItem;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public Set<OrderItem> getListOrderItem() {
         return listOrderItem;
