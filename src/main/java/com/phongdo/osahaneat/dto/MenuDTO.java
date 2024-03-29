@@ -7,6 +7,15 @@ public class MenuDTO {
     private boolean isFreeShip;
     private String desc;
     private double price;
+    private String timeShip;
+
+    public String getTimeShip() {
+        return timeShip;
+    }
+
+    public void setTimeShip(String timeShip) {
+        this.timeShip = timeShip;
+    }
 
     public int getId() {
         return id;
