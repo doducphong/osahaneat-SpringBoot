@@ -13,5 +13,6 @@ public interface CategoryServiceImp {
     boolean deleteCategory(@PathVariable int categoryId);
     boolean updateCategory(@PathVariable int categoryId, @RequestParam String nameCategory);
 
+    CategoryDTO addCategory(@RequestBody CategoryDTO categoryDTO);
 
 }

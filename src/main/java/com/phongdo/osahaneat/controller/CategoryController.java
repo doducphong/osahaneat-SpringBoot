@@ -37,4 +37,10 @@ public class CategoryController {
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
+    @PostMapping()
+    public ResponseEntity<?> addCategory(@RequestBody CategoryDTO categoryDTO){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(categoryServiceImp.addCategory(categoryDTO));
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
+    }
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 public class CategoryService implements CategoryServiceImp {
     @Autowired
     CategoryRepository categoryRepository;
+
     @Override
     public List<CategoryDTO> getCategoryHomePage() {
         PageRequest pageRequest = PageRequest.of(0,3, Sort.by("id"));
@@ -81,5 +82,21 @@ public class CategoryService implements CategoryServiceImp {
             return false;
         }
 
+    }
+
+    @Override
+    public CategoryDTO addCategory(CategoryDTO categoryDTO) {
+        Category category = new Category();
+        category.setNameCate(categoryDTO.getName());
+
+        Category savedCategory = categoryRepository.save(category);
+        return convertToDTO(savedCategory);
+    }
+
+    private CategoryDTO convertToDTO(Category category) {
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(category.getId());
+        categoryDTO.setName(category.getNameCate());
+        return categoryDTO;
     }
 }

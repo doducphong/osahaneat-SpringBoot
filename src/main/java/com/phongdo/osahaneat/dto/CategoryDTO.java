@@ -3,9 +3,17 @@ package com.phongdo.osahaneat.dto;
 import java.util.List;
 
 public class CategoryDTO {
+    private int id;
     private String name;
     List<MenuDTO> menus;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

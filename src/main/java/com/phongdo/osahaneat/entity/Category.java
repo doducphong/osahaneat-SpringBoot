@@ -20,6 +20,9 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<MenuRestaurant> listMenu;
 
+    @OneToMany(mappedBy = "category")
+    private Set<Food> listFood;
+
     public Set<MenuRestaurant> getListMenu() {
         return listMenu;
     }
@@ -27,9 +30,6 @@ public class Category {
     public void setListMenu(Set<MenuRestaurant> listMenu) {
         this.listMenu = listMenu;
     }
-
-    @OneToMany(mappedBy = "category")
-    private Set<Food> listFood;
 
     public Set<Food> getListFood() {
         return listFood;
