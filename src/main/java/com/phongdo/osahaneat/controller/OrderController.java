@@ -19,7 +19,7 @@ public class OrderController {
     @Autowired
     OrderServiceImp orderServiceImp;
     @PostMapping()
-    public ResponseEntity<?> getAllUser(@RequestBody OrderRequest orderRequest){
+    public ResponseEntity<?> insertOrder(@RequestBody OrderRequest orderRequest){
         ResponseData responseData = new ResponseData();
         responseData.setData(orderServiceImp.insertOrder(orderRequest));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
