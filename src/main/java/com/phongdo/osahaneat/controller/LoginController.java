@@ -2,6 +2,7 @@ package com.phongdo.osahaneat.controller;
 
 import com.phongdo.osahaneat.payload.ResponseData;
 import com.phongdo.osahaneat.payload.request.SignupRequest;
+import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.LoginService;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
@@ -27,6 +28,8 @@ public class LoginController {
 
     @Autowired
     JwtUtilsHelper jwtUtilsHelper;
+    @Autowired
+    UserRepository userRepository;
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password){
         ResponseData responseData = new ResponseData();
@@ -46,6 +49,9 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
+        if(userRepository.existsByUsername(signupRequest.getEmail())){
+            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+        }
         ResponseData responseData = new ResponseData();
         responseData.setData(loginServiceImp.addUser(signupRequest));
         return new ResponseEntity<>(responseData, HttpStatus.OK);

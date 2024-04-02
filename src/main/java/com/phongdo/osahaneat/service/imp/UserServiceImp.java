@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface UserServiceImp {
     List<UserDTO> getAllUser();
-    UserDTO createUser(@RequestBody UserDTO userDTO);
 }
