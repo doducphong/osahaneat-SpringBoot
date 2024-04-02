@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -48,6 +49,7 @@ public class LoginService implements LoginServiceImp {
     @Override
     public boolean addUser(SignupRequest signupRequest) {
 
+
         Roles roles = new Roles();
         roles.setId(signupRequest.getRoleId());
 
@@ -57,6 +59,7 @@ public class LoginService implements LoginServiceImp {
         String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
         users.setPassword(encodePassword);
         users.setRoles(roles);
+        users.setCreateDate(new Date());
         try {
             userRepository.save(users);
             return true;

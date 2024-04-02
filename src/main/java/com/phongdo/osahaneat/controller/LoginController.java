@@ -30,6 +30,7 @@ public class LoginController {
     JwtUtilsHelper jwtUtilsHelper;
     @Autowired
     UserRepository userRepository;
+
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password){
         ResponseData responseData = new ResponseData();
@@ -49,8 +50,9 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
-        if(userRepository.existsByUsername(signupRequest.getEmail())){
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+
+        if(userRepository.existsByuserName(signupRequest.getEmail())){
+            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
         ResponseData responseData = new ResponseData();
         responseData.setData(loginServiceImp.addUser(signupRequest));
