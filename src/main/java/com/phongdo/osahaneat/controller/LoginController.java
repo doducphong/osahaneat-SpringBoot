@@ -10,6 +10,7 @@ import com.phongdo.osahaneat.utils.JwtUtilsHelper;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,16 @@ public class LoginController {
 
         if(userRepository.existsByuserName(signupRequest.getEmail())){
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+        }
+
+        boolean allowLocal = false;
+        if (signupRequest.getEmail() == null || signupRequest.getEmail().isEmpty()) {
+            return new ResponseEntity<>("Username is empty!", HttpStatus.BAD_REQUEST);
+        } else {
+            boolean isValidEmail = EmailValidator.getInstance(allowLocal).isValid(signupRequest.getEmail());
+            if (!isValidEmail) {
+                return new ResponseEntity<>("Username must Email!", HttpStatus.BAD_REQUEST);
+            }
         }
         ResponseData responseData = new ResponseData();
         responseData.setData(loginServiceImp.addUser(signupRequest));
