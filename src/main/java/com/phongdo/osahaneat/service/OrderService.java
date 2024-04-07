@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,7 +40,7 @@ public class OrderService implements OrderServiceImp {
             Orders orders = new Orders();
             orders.setUsers(users);
             orders.setRestaurant(restaurant);
-
+            orders.setCreateDate(new Date());
             orderRepository.save(orders);
 
             List<OrderItem> orderItems = new ArrayList<>();
@@ -51,6 +52,7 @@ public class OrderService implements OrderServiceImp {
                 OrderItem orderItem = new OrderItem();
                 KeyOrderItem keyOrderItem = new KeyOrderItem(orders.getId(),foodId);
                 orderItem.setKeys(keyOrderItem);
+                orderItem.setCareateDate(new Date());
                 orderItems.add(orderItem);
             }
             orderItemRepository.saveAll(orderItems);
