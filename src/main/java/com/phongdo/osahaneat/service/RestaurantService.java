@@ -7,6 +7,7 @@ import com.phongdo.osahaneat.entity.*;
 import com.phongdo.osahaneat.repository.RestaurantRepository;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.SimpleFormatter;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService implements RestaurantServiceImp {
@@ -85,7 +87,7 @@ public class RestaurantService implements RestaurantServiceImp {
     public RestaurantDTO getDetailRestaurant(int id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         RestaurantDTO restaurantDTO = new RestaurantDTO();
-
+        ModelMapper modelMapper = new ModelMapper();
         if(restaurant.isPresent()){
             Restaurant data = restaurant.get();
             restaurantDTO.setImage(data.getImage());
@@ -102,17 +104,9 @@ public class RestaurantService implements RestaurantServiceImp {
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setName(menuRestaurant.getCategory().getNameCate());
                 //menu
-                for (Food food:menuRestaurant.getCategory().getListFood()) {
-                    MenuDTO menuDTO = new MenuDTO();
-                    menuDTO.setId(food.getId());
-                    menuDTO.setTitle(food.getTitle());
-                    menuDTO.setImage(food.getImage());
-                    menuDTO.setFreeShip(food.isFreeShip());
-                    menuDTO.setDesc(food.getDesc());
-                    menuDTO.setPrice(food.getPrice());
-                    menuDTOList.add(menuDTO);
-                }
-                categoryDTO.setMenus(menuDTOList);
+                categoryDTO.setMenus(menuRestaurant.getCategory().getListFood().stream()
+                        .map(food -> modelMapper.map(food, MenuDTO.class))
+                        .collect(Collectors.toList()));
                 categoryDTOList.add(categoryDTO);
             }
             restaurantDTO.setCategoryDTOList(categoryDTOList);
