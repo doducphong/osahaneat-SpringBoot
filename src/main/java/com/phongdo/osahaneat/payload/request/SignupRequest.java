@@ -2,7 +2,7 @@ package com.phongdo.osahaneat.payload.request;
 
 public class SignupRequest {
     private String fullname;
-    private String email;
+    private String userName;
     private String password;
     private int roleId;
 
@@ -14,12 +14,12 @@ public class SignupRequest {
         this.fullname = fullname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String email) {
+        this.userName = email;
     }
 
     public String getPassword() {

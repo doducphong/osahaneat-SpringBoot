@@ -55,21 +55,21 @@ public class LoginController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
 
-        if(userRepository.existsByuserName(signupRequest.getEmail())){
+        if(userRepository.existsByUserName(signupRequest.getUserName())){
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
 
         boolean allowLocal = false;
-        if (signupRequest.getEmail() == null || signupRequest.getEmail().isEmpty()) {
+        if (signupRequest.getUserName() == null || signupRequest.getUserName().isEmpty()) {
             return new ResponseEntity<>("Username is empty!", HttpStatus.BAD_REQUEST);
         } else {
-            boolean isValidEmail = EmailValidator.getInstance(allowLocal).isValid(signupRequest.getEmail());
+            boolean isValidEmail = EmailValidator.getInstance(allowLocal).isValid(signupRequest.getUserName());
             if (!isValidEmail) {
                 return new ResponseEntity<>("Username must Email!", HttpStatus.BAD_REQUEST);
             }
         }
         ResponseData responseData = new ResponseData();
-        responseData.setData(loginServiceImp.addUser(signupRequest));
+        responseData.setData(userServiceImp.addUser(signupRequest));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 

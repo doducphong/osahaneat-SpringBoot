@@ -25,48 +25,11 @@ public class LoginService implements LoginServiceImp {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDTO> getAllUser(){
-        List<Users> listUser = userRepository.findAll();
-        List<UserDTO> userDTOList = new ArrayList<>();
-        ModelMapper modelMapper = new ModelMapper();
-
-        for (Users users:listUser) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserName(users.getUserName());
-            userDTO.setFullname(users.getFullname());
-            userDTO.setId(users.getId());
-            userDTO.setCreateDate(users.getCreateDate());
-            userDTOList.add(userDTO);
-        }
-        return userDTOList;
-    }
-
-    @Override
     public boolean checkLogin(String username, String password) {
         Users user = userRepository.findByUserName(username);
          return passwordEncoder.matches(password,user.getPassword());
 
     }
 
-    @Override
-    public boolean addUser(SignupRequest signupRequest) {
 
-
-        Roles roles = new Roles();
-        roles.setId(signupRequest.getRoleId());
-
-        Users users = new Users();
-        users.setFullname(signupRequest.getFullname());
-        users.setUserName(signupRequest.getEmail());
-        String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
-        users.setPassword(encodePassword);
-        users.setRoles(roles);
-        users.setCreateDate(new Date());
-        try {
-            userRepository.save(users);
-            return true;
-        }catch(Exception e){
-            return false;
-        }
-    }
 }
