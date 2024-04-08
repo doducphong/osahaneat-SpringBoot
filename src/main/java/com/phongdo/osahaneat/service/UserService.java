@@ -10,6 +10,7 @@ import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.security.CustomFilterSecurity;
 import com.phongdo.osahaneat.security.CustomJwtFilter;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,13 +31,9 @@ public class UserService implements UserServiceImp {
     public List<UserDTO> getAllUser(){
         List<Users> listUser = userRepository.findAll();
         List<UserDTO> userDTOList = new ArrayList<>();
-
+        ModelMapper modelMapper = new ModelMapper();
         for (Users users:listUser) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUserName(users.getUserName());
-            userDTO.setFullname(users.getFullname());
-            userDTO.setId(users.getId());
-            userDTO.setCreateDate(users.getCreateDate());
+            UserDTO userDTO = modelMapper.map(users,UserDTO.class);
             userDTOList.add(userDTO);
         }
         return userDTOList;

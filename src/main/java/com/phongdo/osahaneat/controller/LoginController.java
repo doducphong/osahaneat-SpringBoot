@@ -6,6 +6,7 @@ import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.LoginService;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
+import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import com.phongdo.osahaneat.utils.JwtUtilsHelper;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
@@ -31,6 +32,8 @@ public class LoginController {
     JwtUtilsHelper jwtUtilsHelper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserServiceImp userServiceImp;
 
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestParam String username, @RequestParam String password){
