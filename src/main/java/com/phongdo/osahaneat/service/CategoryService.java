@@ -4,6 +4,7 @@ import com.phongdo.osahaneat.dto.CategoryDTO;
 import com.phongdo.osahaneat.dto.MenuDTO;
 import com.phongdo.osahaneat.entity.Category;
 import com.phongdo.osahaneat.entity.Food;
+import com.phongdo.osahaneat.mapper.CategoryMapper;
 import com.phongdo.osahaneat.repository.CategoryRepository;
 import com.phongdo.osahaneat.service.imp.CategoryServiceImp;
 import org.modelmapper.ModelMapper;
@@ -25,24 +26,19 @@ import java.util.stream.Collectors;
 public class CategoryService implements CategoryServiceImp {
     @Autowired
     CategoryRepository categoryRepository;
-
+    @Autowired
+    CategoryMapper categoryMapper;
 
 
     @Override
     public List<CategoryDTO> getCategoryHomePage() {
         PageRequest pageRequest = PageRequest.of(0,3, Sort.by("id"));
         Page<Category> listCategory = categoryRepository.findAll(pageRequest);
-        List<CategoryDTO> listCategoryDTOS = new ArrayList<>();
-        ModelMapper modelMapper = new ModelMapper();
-        for (Category data : listCategory) {
-            CategoryDTO categoryDTO = modelMapper.map(data, CategoryDTO.class);
-            categoryDTO.setMenus(data.getListFood().stream()
-                    .map(food -> modelMapper.map(food, MenuDTO.class))
-                    .collect(Collectors.toList()));
-            listCategoryDTOS.add(categoryDTO);
-        }
 
-        return listCategoryDTOS;
+
+        return listCategory.getContent().stream()
+                .map(categoryMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -84,13 +80,10 @@ public class CategoryService implements CategoryServiceImp {
 
     @Override
     public CategoryDTO addCategory(CategoryDTO categoryDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        Category category = new Category();
-        category.setNameCate(categoryDTO.getName());
+        Category category = categoryMapper.toEntity(categoryDTO);
         category.setCreateDate(new Date());
         Category savedCategory = categoryRepository.save(category);
-
-        return modelMapper.map(savedCategory,CategoryDTO.class);
+        return categoryMapper.toDTO(savedCategory);
     }
 
 }
