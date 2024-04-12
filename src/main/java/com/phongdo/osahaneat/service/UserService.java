@@ -5,6 +5,7 @@ import com.phongdo.osahaneat.dto.UserDTO;
 import com.phongdo.osahaneat.entity.Category;
 import com.phongdo.osahaneat.entity.Roles;
 import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.mapper.UserMapper;
 import com.phongdo.osahaneat.payload.request.SignupRequest;
 import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
@@ -29,15 +30,13 @@ public class UserService implements UserServiceImp {
     PasswordEncoder passwordEncoder;
     @Autowired
     RoleRepository repository;
+    @Autowired
+    UserMapper userMapper;
     @Override
     public List<UserDTO> getAllUser(){
         List<Users> listUser = userRepository.findAll();
-        List<UserDTO> userDTOList = new ArrayList<>();
-        ModelMapper modelMapper = new ModelMapper();
-        for (Users users:listUser) {
-            UserDTO userDTO = modelMapper.map(users,UserDTO.class);
-            userDTOList.add(userDTO);
-        }
+        List<UserDTO> userDTOList = userMapper.toDTOList(listUser);
+
         return userDTOList;
     }
 
