@@ -4,6 +4,9 @@ import com.phongdo.osahaneat.dto.CategoryDTO;
 import com.phongdo.osahaneat.dto.MenuDTO;
 import com.phongdo.osahaneat.dto.RestaurantDTO;
 import com.phongdo.osahaneat.entity.*;
+import com.phongdo.osahaneat.mapper.CategoryMapper;
+import com.phongdo.osahaneat.mapper.FoodMapper;
+import com.phongdo.osahaneat.mapper.RestaurantMapper;
 import com.phongdo.osahaneat.repository.RestaurantRepository;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
@@ -27,6 +30,12 @@ public class RestaurantService implements RestaurantServiceImp {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    RestaurantMapper restaurantMapper;
+    @Autowired
+    CategoryMapper categoryMapper;
+
+
 
 
     @Override
@@ -63,50 +72,35 @@ public class RestaurantService implements RestaurantServiceImp {
         Page<Restaurant> listData = restaurantRepository.findAll(pageRequest);
         for (Restaurant data : listData) {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
-            restaurantDTO.setId(data.getId());
-            restaurantDTO.setImage(data.getImage());
-            restaurantDTO.setTitle(data.getTitle());
-            restaurantDTO.setFreeShip(data.isFreeship());
-            restaurantDTO.setSubtitle(data.getSubTitle());
+            restaurantDTO = restaurantMapper.restaurantToRestaurantDTO(data);
             restaurantDTO.setRating(calculatorRating(data.getListRatingRestaurant()));
-
             restaurantDTOS.add(restaurantDTO);
         }
         return restaurantDTOS;
     }
 
     public double calculatorRating(Set<RatingRestaurant> listRating){
-        double totalPoin = 0;
+        double totalPoint = 0;
         for (RatingRestaurant data : listRating) {
-            totalPoin += data.getRatePoint();
+            totalPoint += data.getRatePoint();
         }
-        return totalPoin/listRating.size();
+        return listRating.isEmpty() ? 0 : totalPoint / listRating.size();
     }
 
     @Override
     public RestaurantDTO getDetailRestaurant(int id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         RestaurantDTO restaurantDTO = new RestaurantDTO();
-        ModelMapper modelMapper = new ModelMapper();
         if(restaurant.isPresent()){
             Restaurant data = restaurant.get();
-            restaurantDTO.setImage(data.getImage());
-            restaurantDTO.setOpenDate(data.getOpenTime());
-            restaurantDTO.setTitle(data.getTitle());
-            restaurantDTO.setSubtitle(data.getSubTitle());
-            restaurantDTO.setFreeShip(data.isFreeship());
+            restaurantDTO = restaurantMapper.restaurantToRestaurantDTO(data);
             restaurantDTO.setRating(calculatorRating(data.getListRatingRestaurant()));
-            restaurantDTO.setDesc(data.getDesc());
             List<CategoryDTO> categoryDTOList = new ArrayList<>();
             //category
             for (MenuRestaurant menuRestaurant : data.getListMenu()) {
                 List<MenuDTO> menuDTOList = new ArrayList<>();
-                CategoryDTO categoryDTO = new CategoryDTO();
-                categoryDTO.setName(menuRestaurant.getCategory().getNameCate());
+                CategoryDTO categoryDTO = categoryMapper.toDTO(menuRestaurant.getCategory());
                 //menu
-                categoryDTO.setMenus(menuRestaurant.getCategory().getListFood().stream()
-                        .map(food -> modelMapper.map(food, MenuDTO.class))
-                        .collect(Collectors.toList()));
                 categoryDTOList.add(categoryDTO);
             }
             restaurantDTO.setCategoryDTOList(categoryDTOList);
