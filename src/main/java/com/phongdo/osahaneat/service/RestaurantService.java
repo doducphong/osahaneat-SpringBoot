@@ -74,6 +74,14 @@ public class RestaurantService implements RestaurantServiceImp {
             RestaurantDTO restaurantDTO = new RestaurantDTO();
             restaurantDTO = restaurantMapper.restaurantToRestaurantDTO(data);
             restaurantDTO.setRating(calculatorRating(data.getListRatingRestaurant()));
+            List<CategoryDTO> categoryDTOList = new ArrayList<>();
+            for (MenuRestaurant menuRestaurant : data.getListMenu()) {
+                List<MenuDTO> menuDTOList = new ArrayList<>();
+                CategoryDTO categoryDTO = categoryMapper.toDTO(menuRestaurant.getCategory());
+                //menu
+                categoryDTOList.add(categoryDTO);
+            }
+            restaurantDTO.setCategoryDTOList(categoryDTOList);
             restaurantDTOS.add(restaurantDTO);
         }
         return restaurantDTOS;

@@ -19,9 +19,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", uses = {CategoryMapper.class, FoodMapper.class})
 public interface RestaurantMapper {
 
-    @Autowired
-    CategoryMapper categoryMapper = null;
-
     @Mappings({
             @Mapping(source = "subTitle", target = "subtitle"),
             @Mapping(source = "openTime", target = "openDate"),

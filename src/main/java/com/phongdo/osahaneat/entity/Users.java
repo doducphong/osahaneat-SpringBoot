@@ -1,5 +1,6 @@
 package com.phongdo.osahaneat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,18 +20,20 @@ public class Users {
     @Column(name = "create_date")
     private Date createDate;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Orders> listOrders;
 
-    public Set<Orders> getListOrder() {
+    public Set<Orders> getListOrders() {
         return listOrders;
     }
 
-    public void setListOrder(Set<Orders> listOrders) {
+    public void setListOrders(Set<Orders> listOrders) {
         this.listOrders = listOrders;
     }
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<RatingRestaurant> listRatingRestaurant;
 
     public Set<RatingRestaurant> getListRatingRestaurant() {
@@ -41,11 +44,14 @@ public class Users {
         this.listRatingRestaurant = listRatingRestaurant;
     }
 
+
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @JsonIgnore
     private Roles roles;
 
     @OneToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<RatingFood> listRatingFood;
 
     public Set<RatingFood> getListRatingFood() {

@@ -1,6 +1,9 @@
 package com.phongdo.osahaneat.controller;
 
+import com.phongdo.osahaneat.dto.UserDTO;
+import com.phongdo.osahaneat.entity.Users;
 import com.phongdo.osahaneat.payload.ResponseData;
+import com.phongdo.osahaneat.payload.request.ApiResponse;
 import com.phongdo.osahaneat.payload.request.SignupRequest;
 import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
@@ -11,6 +14,8 @@ import com.phongdo.osahaneat.utils.JwtUtilsHelper;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.validation.Valid;
+import org.apache.catalina.User;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,24 +58,12 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
+    public ApiResponse<Users> signup(@RequestBody @Valid SignupRequest signupRequest){
+        ApiResponse<Users> apiResponse = new ApiResponse<>();
 
-        if(userRepository.existsByUserName(signupRequest.getUserName())){
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
-        }
+        apiResponse.setResult(userServiceImp.addUser(signupRequest));
 
-        boolean allowLocal = false;
-        if (signupRequest.getUserName() == null || signupRequest.getUserName().isEmpty()) {
-            return new ResponseEntity<>("Username is empty!", HttpStatus.BAD_REQUEST);
-        } else {
-            boolean isValidEmail = EmailValidator.getInstance(allowLocal).isValid(signupRequest.getUserName());
-            if (!isValidEmail) {
-                return new ResponseEntity<>("Username must Email!", HttpStatus.BAD_REQUEST);
-            }
-        }
-        ResponseData responseData = new ResponseData();
-        responseData.setData(userServiceImp.addUser(signupRequest));
-        return new ResponseEntity<>(responseData, HttpStatus.OK);
+        return apiResponse;
     }
 
 

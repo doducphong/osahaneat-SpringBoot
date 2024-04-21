@@ -1,8 +1,16 @@
 package com.phongdo.osahaneat.payload.request;
 
+import com.phongdo.osahaneat.exception.ErrorCode;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class SignupRequest {
     private String fullname;
+    //@Email(message = "username must be email")
+    @Size(min = 3,message = "USERNAME_INVALID")
     private String userName;
+
+    @Size(min = 8,message = "PASSWORD_INVALID")
     private String password;
     private int roleId;
 
