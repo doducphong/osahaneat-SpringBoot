@@ -1,6 +1,6 @@
 package com.phongdo.osahaneat.controller;
 
-import com.phongdo.osahaneat.payload.ResponseData;
+import com.phongdo.osahaneat.dto.response.ResponseData;
 import com.phongdo.osahaneat.service.MenuService;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;

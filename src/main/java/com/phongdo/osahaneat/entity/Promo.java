@@ -1,65 +1,35 @@
 package com.phongdo.osahaneat.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity(name = "promo")
 public class Promo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
     @ManyToOne
     @JoinColumn(name = "res_id")
-    private Restaurant restaurant;
+    Restaurant restaurant;
 
     @Column(name = "percent")
-    private int percent;
+    int percent;
 
     @Column(name = "start_date")
-    private Date startDate;
+    Date startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    Date endDate;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public int getPercent() {
-        return percent;
-    }
-
-    public void setPercent(int percent) {
-        this.percent = percent;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 }

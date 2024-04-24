@@ -1,11 +1,10 @@
 package com.phongdo.osahaneat.mapper;
 
-import com.phongdo.osahaneat.dto.CategoryDTO;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
 import com.phongdo.osahaneat.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 

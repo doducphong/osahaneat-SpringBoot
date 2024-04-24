@@ -1,6 +1,6 @@
 package com.phongdo.osahaneat.mapper;
 
-import com.phongdo.osahaneat.dto.UserDTO;
+import com.phongdo.osahaneat.dto.response.UserDTO;
 import com.phongdo.osahaneat.entity.Users;
 import org.mapstruct.Mapper;
 

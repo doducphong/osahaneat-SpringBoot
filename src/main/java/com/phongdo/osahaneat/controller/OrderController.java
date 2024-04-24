@@ -1,7 +1,7 @@
 package com.phongdo.osahaneat.controller;
 
-import com.phongdo.osahaneat.payload.ResponseData;
-import com.phongdo.osahaneat.payload.request.OrderRequest;
+import com.phongdo.osahaneat.dto.response.ResponseData;
+import com.phongdo.osahaneat.dto.request.OrderRequest;
 import com.phongdo.osahaneat.service.imp.OrderServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

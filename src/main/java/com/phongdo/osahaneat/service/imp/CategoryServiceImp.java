@@ -1,7 +1,6 @@
 package com.phongdo.osahaneat.service.imp;
 
-import com.phongdo.osahaneat.dto.CategoryDTO;
-import com.phongdo.osahaneat.entity.Food;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;

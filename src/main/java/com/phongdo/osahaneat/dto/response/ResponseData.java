@@ -1,4 +1,4 @@
-package com.phongdo.osahaneat.payload;
+package com.phongdo.osahaneat.dto.response;
 
 public class ResponseData {
     private int status = 200;

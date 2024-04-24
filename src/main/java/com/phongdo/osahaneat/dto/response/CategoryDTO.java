@@ -1,4 +1,4 @@
-package com.phongdo.osahaneat.dto;
+package com.phongdo.osahaneat.dto.response;
 
 import java.util.List;
 

@@ -1,22 +1,16 @@
 package com.phongdo.osahaneat.service;
 
-import com.phongdo.osahaneat.dto.CategoryDTO;
-import com.phongdo.osahaneat.dto.MenuDTO;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
 import com.phongdo.osahaneat.entity.Category;
-import com.phongdo.osahaneat.entity.Food;
 import com.phongdo.osahaneat.mapper.CategoryMapper;
 import com.phongdo.osahaneat.repository.CategoryRepository;
 import com.phongdo.osahaneat.service.imp.CategoryServiceImp;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
-import javax.print.attribute.standard.Destination;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

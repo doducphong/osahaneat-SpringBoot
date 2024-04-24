@@ -1,7 +1,6 @@
 package com.phongdo.osahaneat.service.imp;
 
-import com.phongdo.osahaneat.dto.RestaurantDTO;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.phongdo.osahaneat.dto.response.RestaurantDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

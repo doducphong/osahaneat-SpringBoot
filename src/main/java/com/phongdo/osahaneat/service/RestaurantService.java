@@ -1,16 +1,14 @@
 package com.phongdo.osahaneat.service;
 
-import com.phongdo.osahaneat.dto.CategoryDTO;
-import com.phongdo.osahaneat.dto.MenuDTO;
-import com.phongdo.osahaneat.dto.RestaurantDTO;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
+import com.phongdo.osahaneat.dto.response.MenuDTO;
+import com.phongdo.osahaneat.dto.response.RestaurantDTO;
 import com.phongdo.osahaneat.entity.*;
 import com.phongdo.osahaneat.mapper.CategoryMapper;
-import com.phongdo.osahaneat.mapper.FoodMapper;
 import com.phongdo.osahaneat.mapper.RestaurantMapper;
 import com.phongdo.osahaneat.repository.RestaurantRepository;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.SimpleFormatter;
-import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService implements RestaurantServiceImp {

@@ -1,6 +1,6 @@
 package com.phongdo.osahaneat.exception;
 
-import com.phongdo.osahaneat.payload.request.ApiResponse;
+import com.phongdo.osahaneat.dto.request.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

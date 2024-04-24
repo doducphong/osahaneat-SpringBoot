@@ -2,7 +2,7 @@ package com.phongdo.osahaneat.service;
 
 import com.phongdo.osahaneat.entity.*;
 import com.phongdo.osahaneat.entity.keys.KeyOrderItem;
-import com.phongdo.osahaneat.payload.request.OrderRequest;
+import com.phongdo.osahaneat.dto.request.OrderRequest;
 import com.phongdo.osahaneat.repository.OrderItemRepository;
 import com.phongdo.osahaneat.repository.OrderRepository;
 import com.phongdo.osahaneat.service.imp.OrderServiceImp;

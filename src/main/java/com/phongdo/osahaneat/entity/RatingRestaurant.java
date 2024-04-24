@@ -1,64 +1,34 @@
 package com.phongdo.osahaneat.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity(name = "ratingRestaurant")
 public class RatingRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users users;
+    Users users;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    Restaurant restaurant;
 
     @Column(name = "content")
-    private String content;
+    String content;
 
     @Column(name = "rate_point")
-    private int ratePoint;
+    int ratePoint;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getRatePoint() {
-        return ratePoint;
-    }
-
-    public void setRatePoint(int ratePoint) {
-        this.ratePoint = ratePoint;
-    }
 }
