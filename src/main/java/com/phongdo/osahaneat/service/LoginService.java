@@ -1,26 +1,84 @@
 package com.phongdo.osahaneat.service;
 
-import com.phongdo.osahaneat.entity.Users;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.phongdo.osahaneat.dto.request.LoginRequest;
+import com.phongdo.osahaneat.dto.response.LoginResponse;
+import com.phongdo.osahaneat.exception.AppException;
+import com.phongdo.osahaneat.exception.ErrorCode;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class LoginService implements LoginServiceImp {
 
-    @Autowired
     UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
+    @NonFinal
+    protected static final String SIGNER_KEY = "WAsss5qr9rFemxqyamr2IpWvKYO6fPGwI+r4dsikI6fi9x6UOE0iP8NOBBjYo7l/";
     @Override
-    public boolean checkLogin(String username, String password) {
-        Users user = userRepository.findByUserName(username);
-         return passwordEncoder.matches(password,user.getPassword());
+    public LoginResponse checkLogin(LoginRequest loginRequest) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        var user = userRepository.findByUserName(loginRequest.getUsername())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+         boolean issSuccess =  passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
+
+         if(!issSuccess){
+             throw new AppException(ErrorCode.UNAUTHENTICATED);
+
+         }
+         var token = generateToken(loginRequest.getUsername());
+         return LoginResponse.builder()
+                 .logged(true)
+                 .token(token)
+                 .build();
 
     }
 
+
+    private String generateToken(String username){
+
+        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
+                .subject(username)
+                .issuer("phongdo.com")
+                .issueTime(new Date())
+                .expirationTime(new Date(
+                        Instant.now().plus(1, ChronoUnit.DAYS).toEpochMilli()
+                ))
+                .claim("customClaim", "custom")
+                .build();
+        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
+        JWSObject jwsObject = new JWSObject(header,payload);
+        log.info("in create token");
+
+        try{
+            log.info("error here");
+            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
+
+            return jwsObject.serialize();
+        } catch (JOSEException e) {
+            log.error("Cannot create token", e);
+            throw new RuntimeException(e);
+        }
+    }
 
 }
