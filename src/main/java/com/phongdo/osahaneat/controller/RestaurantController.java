@@ -3,6 +3,7 @@ package com.phongdo.osahaneat.controller;
 import com.phongdo.osahaneat.dto.response.ResponseData;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -46,6 +48,7 @@ public class RestaurantController {
     @GetMapping("/file/{filename:.+}")
     public ResponseEntity<?> getFileRestaurant(@PathVariable String filename){
         Resource resource = fileServiceImp.loadFile(filename);
+        log.info("load file here");
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);

@@ -1,6 +1,7 @@
 package com.phongdo.osahaneat.service;
 
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+@Slf4j
 @Service
 public class FileService implements FileServiceImp {
 
@@ -51,6 +53,7 @@ public class FileService implements FileServiceImp {
             init();
             Path file = root.resolve(fileName);
             Resource resource = new UrlResource(file.toUri());
+            log.info("load file");
             if(resource.exists() || resource.isReadable()){
                 return resource;
             }
