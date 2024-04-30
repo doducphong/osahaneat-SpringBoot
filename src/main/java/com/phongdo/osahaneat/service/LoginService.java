@@ -2,14 +2,19 @@ package com.phongdo.osahaneat.service;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
+import com.phongdo.osahaneat.dto.request.IntrospectRequest;
 import com.phongdo.osahaneat.dto.request.LoginRequest;
+import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.LoginResponse;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -19,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -31,7 +37,8 @@ public class LoginService implements LoginServiceImp {
 
     UserRepository userRepository;
     @NonFinal
-    protected static final String SIGNER_KEY = "WAsss5qr9rFemxqyamr2IpWvKYO6fPGwI+r4dsikI6fi9x6UOE0iP8NOBBjYo7l/";
+    @Value("${jwt.privateKey}")
+    protected String SIGNER_KEY;
     @Override
     public LoginResponse checkLogin(LoginRequest loginRequest) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -52,6 +59,23 @@ public class LoginService implements LoginServiceImp {
 
     }
 
+    @Override
+    public IntrospectResponse introspect(IntrospectRequest introspectRequest)
+            throws JOSEException, ParseException {
+        var token = introspectRequest.getToken();
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+
+        Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        var verified = signedJWT.verify(verifier);
+
+        return IntrospectResponse.builder()
+                .valid(verified && expityTime.after(new Date()))
+                .build();
+    }
+
 
     private String generateToken(String username){
 
@@ -68,10 +92,8 @@ public class LoginService implements LoginServiceImp {
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header,payload);
-        log.info("in create token");
 
         try{
-            log.info("error here");
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
 
             return jwsObject.serialize();
@@ -80,5 +102,6 @@ public class LoginService implements LoginServiceImp {
             throw new RuntimeException(e);
         }
     }
+
 
 }

@@ -1,6 +1,9 @@
 package com.phongdo.osahaneat.controller;
 
+import com.nimbusds.jose.JOSEException;
+import com.phongdo.osahaneat.dto.request.IntrospectRequest;
 import com.phongdo.osahaneat.dto.request.LoginRequest;
+import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.LoginResponse;
 import com.phongdo.osahaneat.dto.response.UserDTO;
 import com.phongdo.osahaneat.dto.response.ApiResponse;
@@ -13,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RestController
 @RequestMapping("/login")
 @RequiredArgsConstructor
@@ -24,7 +29,7 @@ public class LoginController {
     UserServiceImp userServiceImp;
 
     @PostMapping("/signing")
-    public ApiResponse<LoginResponse> signing(@RequestBody LoginRequest loginRequest){
+    ApiResponse<LoginResponse> signing(@RequestBody LoginRequest loginRequest){
 
         var result = loginServiceImp.checkLogin(loginRequest);
 
@@ -34,7 +39,7 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public ApiResponse<UserDTO> signup(@RequestBody @Valid SignupRequest signupRequest){
+    ApiResponse<UserDTO> signup(@RequestBody @Valid SignupRequest signupRequest){
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(userServiceImp.addUser(signupRequest));
@@ -42,5 +47,15 @@ public class LoginController {
         return apiResponse;
     }
 
+    @PostMapping("/introspect")
+    ApiResponse<IntrospectResponse> signup(@RequestBody @Valid IntrospectRequest request)
+            throws ParseException, JOSEException {
+
+        var result = loginServiceImp.introspect(request);
+
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
+    }
 
 }

@@ -15,7 +15,7 @@ spring:
       max-file-size: 10MB
 
 jwt:
-  privateKey: poXjIr3HD1AFybYNff1aoJu/hyzv1Xwqv+7J2Q9tnXQ=
+  privateKey: "WAsss5qr9rFemxqyamr2IpWvKYO6fPGwI+r4dsikI6fi9x6UOE0iP8NOBBjYo7l/"
 
 fileUpload:
   rootPath: E:\uploads
