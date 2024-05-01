@@ -8,7 +8,8 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -28,7 +29,7 @@ public class Users {
     @Column(name = "create_date")
     Date createDate;
 
-    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users")
     @JsonIgnore
     Set<Orders> listOrders;
 

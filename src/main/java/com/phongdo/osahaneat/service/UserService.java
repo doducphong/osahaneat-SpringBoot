@@ -25,17 +25,14 @@ import java.util.List;
 public class UserService implements UserServiceImp {
     UserRepository userRepository;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
     @Override
     public List<UserDTO> getAllUser(){
-        List<Users> listUser = userRepository.findAll();
-        List<UserDTO> userDTOList = userMapper.toDTOList(listUser);
-
-        return userDTOList;
+        return userMapper.toDTOList(userRepository.findAll());
     }
 
     @Override
     public UserDTO addUser(SignupRequest signupRequest) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Roles roles = new Roles();
         roles.setId(signupRequest.getRoleId());
 

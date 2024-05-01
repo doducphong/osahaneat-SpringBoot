@@ -7,7 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

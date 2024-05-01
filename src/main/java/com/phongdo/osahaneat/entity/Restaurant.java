@@ -7,12 +7,13 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.Set;
 
-@Data
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "restaurant")
 public class Restaurant {
     @Id

@@ -9,6 +9,10 @@ import com.phongdo.osahaneat.mapper.RestaurantMapper;
 import com.phongdo.osahaneat.repository.RestaurantRepository;
 import com.phongdo.osahaneat.service.imp.FileServiceImp;
 import com.phongdo.osahaneat.service.imp.RestaurantServiceImp;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,17 +22,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class RestaurantService implements RestaurantServiceImp {
 
-    @Autowired
     FileServiceImp fileServiceImp;
 
-    @Autowired
     RestaurantRepository restaurantRepository;
-    @Autowired
+
     RestaurantMapper restaurantMapper;
-    @Autowired
+
     CategoryMapper categoryMapper;
 
 
@@ -67,14 +72,11 @@ public class RestaurantService implements RestaurantServiceImp {
         PageRequest pageRequest = PageRequest.of(0,6);
         Page<Restaurant> listData = restaurantRepository.findAll(pageRequest);
         for (Restaurant data : listData) {
-            RestaurantDTO restaurantDTO = new RestaurantDTO();
-            restaurantDTO = restaurantMapper.restaurantToRestaurantDTO(data);
+            RestaurantDTO restaurantDTO = restaurantMapper.restaurantToRestaurantDTO(data);
             restaurantDTO.setRating(calculatorRating(data.getListRatingRestaurant()));
             List<CategoryDTO> categoryDTOList = new ArrayList<>();
             for (MenuRestaurant menuRestaurant : data.getListMenu()) {
-                List<MenuDTO> menuDTOList = new ArrayList<>();
                 CategoryDTO categoryDTO = categoryMapper.toDTO(menuRestaurant.getCategory());
-                //menu
                 categoryDTOList.add(categoryDTO);
             }
             restaurantDTO.setCategoryDTOList(categoryDTOList);
