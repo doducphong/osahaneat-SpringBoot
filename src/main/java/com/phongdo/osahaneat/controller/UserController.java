@@ -5,12 +5,14 @@ import com.phongdo.osahaneat.dto.response.UserDTO;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,5 +39,18 @@ public class UserController {
                 .build();
     }
 
+    @GetMapping("/{userId}")
+    ApiResponse<UserDTO> getUser(@PathVariable("userId") int userId){
+        return ApiResponse.<UserDTO>builder()
+                .result(userServiceImp.getUser(userId))
+                .build();
+    }
+
+    @GetMapping("/myInfo")
+    ApiResponse<UserDTO> getMyInfo(){
+        return ApiResponse.<UserDTO>builder()
+                .result(userServiceImp.getMyInfo())
+                .build();
+    }
 
 }
