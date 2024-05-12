@@ -2,7 +2,6 @@ package com.phongdo.osahaneat.service;
 
 import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.dto.response.UserDTO;
-import com.phongdo.osahaneat.entity.Roles;
 import com.phongdo.osahaneat.entity.Users;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
@@ -16,13 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

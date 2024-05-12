@@ -1,6 +1,5 @@
 package com.phongdo.osahaneat.configuration;
 
-import com.phongdo.osahaneat.entity.Roles;
 import com.phongdo.osahaneat.entity.Users;
 import com.phongdo.osahaneat.repository.UserRepository;
 import lombok.AccessLevel;
@@ -24,7 +23,7 @@ public class ApplicationInitConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository){
         return args -> {
             if(userRepository.findByUserName("admin").isEmpty()){
-                var roles = new Roles();
+//                var roles = new Roles();
                 //roles.setId(1);
 
                 Users users = Users.builder()

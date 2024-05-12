@@ -39,7 +39,7 @@ public class Users {
     Set<RatingRestaurant> listRatingRestaurant;
 
     @ManyToMany
-    Set<Roles> roles;
+    Set<Role> roles;
 
     @OneToMany(mappedBy = "users")
     @JsonIgnore
