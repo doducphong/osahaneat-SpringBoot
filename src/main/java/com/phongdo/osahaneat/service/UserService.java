@@ -41,8 +41,8 @@ public class UserService implements UserServiceImp {
 
     @Override
     public UserDTO addUser(SignupRequest signupRequest) {
-        Roles roles = new Roles();
-        roles.setId(signupRequest.getRoleId());
+//        Roles roles = new Roles();
+//        roles.setId(signupRequest.getRoleId());
 
         Users users = new Users();
 
@@ -53,7 +53,7 @@ public class UserService implements UserServiceImp {
         users.setFullname(signupRequest.getFullname());
         String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
         users.setPassword(encodePassword);
-        users.setRoles(roles);
+        //users.setRoles(roles);
         users.setCreateDate(new Date());
         try {
             UserDTO userDTO = userMapper.toDTO(userRepository.save(users));

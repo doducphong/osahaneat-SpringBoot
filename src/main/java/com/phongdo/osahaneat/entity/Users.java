@@ -38,10 +38,8 @@ public class Users {
     @JsonIgnore
     Set<RatingRestaurant> listRatingRestaurant;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    @JsonIgnore
-    Roles roles;
+    @ManyToMany
+    Set<Roles> roles;
 
     @OneToMany(mappedBy = "users")
     @JsonIgnore

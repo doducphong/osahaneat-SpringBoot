@@ -1,11 +1,11 @@
 package com.phongdo.osahaneat.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -14,16 +14,11 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-@Entity(name = "roles")
-public class Roles {
-
+@Entity
+public class Permission {
     @Id
-    String roleName;
-
-    @Column(name = "create_date")
+    String name;
+    String description;
     Date createDate;
-
-    @ManyToMany
-    Set<Permission> permissions;
 
 }

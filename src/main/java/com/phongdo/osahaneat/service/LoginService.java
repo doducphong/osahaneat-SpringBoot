@@ -109,9 +109,9 @@ public class LoginService implements LoginServiceImp {
 
     private String buiScope(Users users){
         StringJoiner stringJoiner = new StringJoiner(" ");
-        if(!CollectionUtils.isEmpty(Collections.singleton(users.getRoles().getRoleName()))){
-            stringJoiner.add(users.getRoles().getRoleName());
-        }
+//        if(!CollectionUtils.isEmpty(Collections.singleton(users.getRoles().getRoleName()))){
+//            stringJoiner.add(users.getRoles().getRoleName());
+//        }
         return stringJoiner.toString();
     }
 
