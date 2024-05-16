@@ -26,7 +26,7 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    Users users;
+    User user;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")

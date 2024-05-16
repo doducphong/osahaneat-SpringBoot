@@ -5,7 +5,7 @@ import com.phongdo.osahaneat.dto.request.IntrospectRequest;
 import com.phongdo.osahaneat.dto.request.LoginRequest;
 import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.LoginResponse;
-import com.phongdo.osahaneat.dto.response.UserDTO;
+import com.phongdo.osahaneat.dto.response.UserResponse;
 import com.phongdo.osahaneat.dto.response.ApiResponse;
 import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
@@ -39,8 +39,8 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    ApiResponse<UserDTO> signup(@RequestBody @Valid SignupRequest signupRequest){
-        ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
+    ApiResponse<UserResponse> signup(@RequestBody @Valid SignupRequest signupRequest){
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(userServiceImp.addUser(signupRequest));
 

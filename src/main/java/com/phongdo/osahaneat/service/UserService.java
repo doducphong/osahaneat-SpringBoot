@@ -1,11 +1,13 @@
 package com.phongdo.osahaneat.service;
 
 import com.phongdo.osahaneat.dto.request.SignupRequest;
-import com.phongdo.osahaneat.dto.response.UserDTO;
-import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.dto.request.UserUpdateRequest;
+import com.phongdo.osahaneat.dto.response.UserResponse;
+import com.phongdo.osahaneat.entity.User;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
 import com.phongdo.osahaneat.mapper.UserMapper;
+import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import lombok.AccessLevel;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,32 +32,33 @@ public class UserService implements UserServiceImp {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public List<UserDTO> getAllUser(){
+    public List<UserResponse> getAllUser(){
         log.info("In method get users");
-        return userMapper.toDTOList(userRepository.findAll());
+        return userMapper.toUserResponseList(userRepository.findAll());
     }
 
     @Override
-    public UserDTO addUser(SignupRequest signupRequest) {
+    public UserResponse addUser(SignupRequest signupRequest) {
 //        Roles roles = new Roles();
 //        roles.setId(signupRequest.getRoleId());
 
-        Users users = new Users();
+        User user = new User();
 
         if(userRepository.existsByUserName(signupRequest.getUserName())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        users.setUserName(signupRequest.getUserName());
-        users.setFullname(signupRequest.getFullname());
+        user.setUserName(signupRequest.getUserName());
+        user.setFullname(signupRequest.getFullname());
         String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
-        users.setPassword(encodePassword);
+        user.setPassword(encodePassword);
         //users.setRoles(roles);
-        users.setCreateDate(new Date());
+        user.setCreateDate(new Date());
         try {
-            UserDTO userDTO = userMapper.toDTO(userRepository.save(users));
-            return userDTO;
+            UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
+            return userResponse;
         }catch(Exception e){
             return null;
         }
@@ -62,20 +66,33 @@ public class UserService implements UserServiceImp {
 
     @Override
     @PostAuthorize("returnObject.userName == authentication.name")
-    public UserDTO getUser(int id) {
+    public UserResponse getUser(int id) {
         log.info("In method get user by id");
-        return userMapper.toDTO(userRepository.findById(id).orElseThrow(() ->
+        return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() ->
                 new AppException((ErrorCode.USER_NOT_EXISTED))));
     }
 
-    public UserDTO getMyInfo(){
+    public UserResponse getMyInfo(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
-        Users user = userRepository.findByUserName(name).orElseThrow(
+        User user = userRepository.findByUserName(name).orElseThrow(
                 () -> new AppException((ErrorCode.USER_NOT_EXISTED)));
 
-        return userMapper.toDTO(user);
+        return userMapper.toUserResponse(user);
+    }
+
+    @Override
+    public UserResponse updateUser(int userId, UserUpdateRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        userMapper.updateUserFromRequest(user,request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
 }

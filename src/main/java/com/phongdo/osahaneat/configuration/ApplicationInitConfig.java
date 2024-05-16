@@ -1,6 +1,6 @@
 package com.phongdo.osahaneat.configuration;
 
-import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.entity.User;
 import com.phongdo.osahaneat.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class ApplicationInitConfig {
 //                var roles = new Roles();
                 //roles.setId(1);
 
-                Users users = Users.builder()
+                User user = User.builder()
                         .fullname("admin")
                         .userName("admin")
                         .password(passwordEncoder.encode("admin"))
                         //.roles(roles)
                         .build();
-                userRepository.save(users);
+                userRepository.save(user);
                 log.warn("admin user has been created with default password: admin, please change it");
             }
         };

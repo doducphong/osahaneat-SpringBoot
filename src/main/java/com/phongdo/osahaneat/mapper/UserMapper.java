@@ -1,18 +1,23 @@
 package com.phongdo.osahaneat.mapper;
 
-import com.phongdo.osahaneat.dto.response.UserDTO;
-import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.dto.request.UserUpdateRequest;
+import com.phongdo.osahaneat.dto.response.UserResponse;
+import com.phongdo.osahaneat.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    Users toEntity(UserDTO userDTO);
+    //User toEntity(UserResponse userResponse);
 
-    UserDTO toDTO(Users users);
+    UserResponse toUserResponse(User user);
 
-    List<UserDTO> toDTOList(List<Users> users);
+    List<UserResponse> toUserResponseList(List<User> users);
 
+    @Mapping(target = "roles",ignore = true)
+    void updateUserFromRequest(@MappingTarget User user, UserUpdateRequest request);
 
 }

@@ -34,11 +34,11 @@ public class OrderService implements OrderServiceImp {
             Restaurant restaurant = new Restaurant();
             restaurant.setId(orderRequest.getResId());
 
-            Users users = new Users();
-            users.setId(orderRequest.getUserId());
+            User user = new User();
+            user.setId(orderRequest.getUserId());
 
             Orders orders = new Orders();
-            orders.setUsers(users);
+            orders.setUser(user);
             orders.setRestaurant(restaurant);
             orders.setCreateDate(new Date());
             orderRepository.save(orders);

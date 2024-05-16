@@ -16,7 +16,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity(name = "users")
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -29,19 +29,19 @@ public class Users {
     @Column(name = "create_date")
     Date createDate;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     Set<Orders> listOrders;
 
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     Set<RatingRestaurant> listRatingRestaurant;
 
     @ManyToMany
     Set<Role> roles;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     Set<RatingFood> listRatingFood;
 

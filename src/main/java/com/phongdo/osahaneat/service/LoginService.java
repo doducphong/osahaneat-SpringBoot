@@ -9,22 +9,20 @@ import com.phongdo.osahaneat.dto.request.IntrospectRequest;
 import com.phongdo.osahaneat.dto.request.LoginRequest;
 import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.LoginResponse;
-import com.phongdo.osahaneat.entity.Users;
+import com.phongdo.osahaneat.entity.User;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
 import com.phongdo.osahaneat.repository.UserRepository;
 import com.phongdo.osahaneat.service.imp.LoginServiceImp;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
@@ -81,18 +79,18 @@ public class LoginService implements LoginServiceImp {
     }
 
 
-    private String generateToken(Users users){
+    private String generateToken(User user){
 
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(users.getUserName())
+                .subject(user.getUserName())
                 .issuer("phongdo.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.DAYS).toEpochMilli()
                 ))
-                .claim("scope", buiScope(users))
+                .claim("scope", buiScope(user))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header,payload);
@@ -107,11 +105,16 @@ public class LoginService implements LoginServiceImp {
         }
     }
 
-    private String buiScope(Users users){
+    private String buiScope(User user){
         StringJoiner stringJoiner = new StringJoiner(" ");
-//        if(!CollectionUtils.isEmpty(Collections.singleton(users.getRoles().getRoleName()))){
-//            stringJoiner.add(users.getRoles().getRoleName());
-//        }
+
+        if(!CollectionUtils.isEmpty(user.getRoles()))
+            user.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_" + role.getName());
+                if(!CollectionUtils.isEmpty(role.getPermissions()))
+                    role.getPermissions()
+                            .forEach(permission -> stringJoiner.add(permission.getName()));
+            });
         return stringJoiner.toString();
     }
 

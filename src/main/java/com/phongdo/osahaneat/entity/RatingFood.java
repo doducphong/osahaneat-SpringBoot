@@ -26,7 +26,7 @@ public class RatingFood {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    Users users;
+    User user;
 
     @ManyToOne
     @JoinColumn(name = "food_id")

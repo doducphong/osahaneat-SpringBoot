@@ -1,20 +1,15 @@
 package com.phongdo.osahaneat.controller;
 
+import com.phongdo.osahaneat.dto.request.UserUpdateRequest;
 import com.phongdo.osahaneat.dto.response.ApiResponse;
-import com.phongdo.osahaneat.dto.response.UserDTO;
-import com.phongdo.osahaneat.repository.UserRepository;
+import com.phongdo.osahaneat.dto.response.UserResponse;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,28 +23,35 @@ public class UserController {
     UserServiceImp userServiceImp;
 
     @GetMapping("")
-    public ApiResponse<List<UserDTO>> getAllUser(){
+    public ApiResponse<List<UserResponse>> getAllUser(){
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username: {}",authentication.getName());
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
 
-        return ApiResponse.<List<UserDTO>>builder()
+        return ApiResponse.<List<UserResponse>>builder()
                 .result(userServiceImp.getAllUser())
                 .build();
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<UserDTO> getUser(@PathVariable("userId") int userId){
-        return ApiResponse.<UserDTO>builder()
+    ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId){
+        return ApiResponse.<UserResponse>builder()
                 .result(userServiceImp.getUser(userId))
                 .build();
     }
 
     @GetMapping("/myInfo")
-    ApiResponse<UserDTO> getMyInfo(){
-        return ApiResponse.<UserDTO>builder()
+    ApiResponse<UserResponse> getMyInfo(){
+        return ApiResponse.<UserResponse>builder()
                 .result(userServiceImp.getMyInfo())
+                .build();
+    }
+
+    @PutMapping("/{userId}")
+    ApiResponse<UserResponse> updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest userUpdateRequest){
+        return ApiResponse.<UserResponse>builder()
+                .result(userServiceImp.updateUser(userId,userUpdateRequest))
                 .build();
     }
 
