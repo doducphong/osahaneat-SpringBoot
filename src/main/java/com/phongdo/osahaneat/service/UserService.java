@@ -3,6 +3,7 @@ package com.phongdo.osahaneat.service;
 import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.dto.request.UserUpdateRequest;
 import com.phongdo.osahaneat.dto.response.UserResponse;
+import com.phongdo.osahaneat.entity.Role;
 import com.phongdo.osahaneat.entity.User;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
@@ -20,9 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,8 +41,13 @@ public class UserService implements UserServiceImp {
 
     @Override
     public UserResponse addUser(SignupRequest signupRequest) {
-//        Roles roles = new Roles();
-//        roles.setId(signupRequest.getRoleId());
+        Set<String> roleNames = signupRequest.getRoleName();
+        Set<Role> roles = new HashSet<>();
+        for (String roleName:roleNames) {
+            var roleOtp = roleRepository.findByName(roleName).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED));
+            roles.add(roleOtp);
+            
+        }
 
         User user = new User();
 
@@ -54,7 +58,7 @@ public class UserService implements UserServiceImp {
         user.setFullname(signupRequest.getFullname());
         String encodePassword = passwordEncoder.encode(signupRequest.getPassword());
         user.setPassword(encodePassword);
-        //users.setRoles(roles);
+        user.setRoles(roles);
         user.setCreateDate(new Date());
         try {
             UserResponse userResponse = userMapper.toUserResponse(userRepository.save(user));
