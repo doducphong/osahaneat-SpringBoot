@@ -1,4 +1,5 @@
-package com.phongdo.osahaneat.dto.response;
+package com.phongdo.osahaneat.dto.request;
+
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LoginResponse {
-    boolean logged;
+public class RefreshRequest {
     String token;
 }

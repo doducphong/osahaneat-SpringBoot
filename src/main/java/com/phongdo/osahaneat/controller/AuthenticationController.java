@@ -1,14 +1,11 @@
 package com.phongdo.osahaneat.controller;
 
 import com.nimbusds.jose.JOSEException;
-import com.phongdo.osahaneat.dto.request.IntrospectRequest;
-import com.phongdo.osahaneat.dto.request.LoginRequest;
-import com.phongdo.osahaneat.dto.request.LogoutRequest;
+import com.phongdo.osahaneat.dto.request.*;
 import com.phongdo.osahaneat.dto.response.IntrospectResponse;
-import com.phongdo.osahaneat.dto.response.LoginResponse;
+import com.phongdo.osahaneat.dto.response.AuthenticationResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
 import com.phongdo.osahaneat.dto.response.ApiResponse;
-import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.service.imp.AuthenticationServiceImp;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import jakarta.validation.Valid;
@@ -30,11 +27,11 @@ public class AuthenticationController {
     UserServiceImp userServiceImp;
 
     @PostMapping("/signing")
-    ApiResponse<LoginResponse> signing(@RequestBody LoginRequest loginRequest){
+    ApiResponse<AuthenticationResponse> signing(@RequestBody LoginRequest loginRequest){
 
         var result = authenticationServiceImp.checkLogin(loginRequest);
 
-        return ApiResponse.<LoginResponse>builder()
+        return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
     }
@@ -66,6 +63,16 @@ public class AuthenticationController {
         authenticationServiceImp.logout(request);
 
         return ApiResponse.<Void>builder()
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request) throws ParseException, JOSEException {
+
+        var result = authenticationServiceImp.refreshToken(request);
+
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
                 .build();
     }
 

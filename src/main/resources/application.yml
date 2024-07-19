@@ -16,6 +16,8 @@ spring:
 
 jwt:
   privateKey: "WAsss5qr9rFemxqyamr2IpWvKYO6fPGwI+r4dsikI6fi9x6UOE0iP8NOBBjYo7l/"
+  valid-duration: 3600 #in second
+  refreshable-duration: 360000 # in second
 
 fileUpload:
   rootPath: E:\uploads
