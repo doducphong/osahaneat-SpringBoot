@@ -3,6 +3,7 @@ package com.phongdo.osahaneat.controller;
 import com.nimbusds.jose.JOSEException;
 import com.phongdo.osahaneat.dto.request.IntrospectRequest;
 import com.phongdo.osahaneat.dto.request.LoginRequest;
+import com.phongdo.osahaneat.dto.request.LogoutRequest;
 import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.LoginResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
@@ -55,6 +56,16 @@ public class AuthenticationController {
 
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody @Valid LogoutRequest request)
+            throws ParseException, JOSEException {
+
+        authenticationServiceImp.logout(request);
+
+        return ApiResponse.<Void>builder()
                 .build();
     }
 
