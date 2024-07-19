@@ -8,7 +8,7 @@ import com.phongdo.osahaneat.dto.response.LoginResponse;
 
 import java.text.ParseException;
 
-public interface LoginServiceImp {
+public interface AuthenticationServiceImp {
     LoginResponse checkLogin(LoginRequest loginRequest);
     IntrospectResponse introspect(IntrospectRequest introspectRequest) throws JOSEException, ParseException;
 }

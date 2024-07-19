@@ -13,7 +13,7 @@ import com.phongdo.osahaneat.entity.User;
 import com.phongdo.osahaneat.exception.AppException;
 import com.phongdo.osahaneat.exception.ErrorCode;
 import com.phongdo.osahaneat.repository.UserRepository;
-import com.phongdo.osahaneat.service.imp.LoginServiceImp;
+import com.phongdo.osahaneat.service.imp.AuthenticationServiceImp;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -35,7 +34,7 @@ import java.util.StringJoiner;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class LoginService implements LoginServiceImp {
+public class AuthenticationService implements AuthenticationServiceImp {
 
     UserRepository userRepository;
     @NonFinal
@@ -72,6 +71,7 @@ public class LoginService implements LoginServiceImp {
         Date expityTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         var verified = signedJWT.verify(verifier);
+        log.info("test:"+verifier.toString());
 
         return IntrospectResponse.builder()
                 .valid(verified && expityTime.after(new Date()))

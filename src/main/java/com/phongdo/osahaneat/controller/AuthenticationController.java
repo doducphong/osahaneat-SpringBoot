@@ -8,7 +8,7 @@ import com.phongdo.osahaneat.dto.response.LoginResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
 import com.phongdo.osahaneat.dto.response.ApiResponse;
 import com.phongdo.osahaneat.dto.request.SignupRequest;
-import com.phongdo.osahaneat.service.imp.LoginServiceImp;
+import com.phongdo.osahaneat.service.imp.AuthenticationServiceImp;
 import com.phongdo.osahaneat.service.imp.UserServiceImp;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-public class LoginController {
+public class AuthenticationController {
 
-    LoginServiceImp loginServiceImp;
+    AuthenticationServiceImp authenticationServiceImp;
 
     UserServiceImp userServiceImp;
 
     @PostMapping("/signing")
     ApiResponse<LoginResponse> signing(@RequestBody LoginRequest loginRequest){
 
-        var result = loginServiceImp.checkLogin(loginRequest);
+        var result = authenticationServiceImp.checkLogin(loginRequest);
 
         return ApiResponse.<LoginResponse>builder()
                 .result(result)
@@ -48,10 +48,10 @@ public class LoginController {
     }
 
     @PostMapping("/introspect")
-    ApiResponse<IntrospectResponse> signup(@RequestBody @Valid IntrospectRequest request)
+    ApiResponse<IntrospectResponse> introspect(@RequestBody @Valid IntrospectRequest request)
             throws ParseException, JOSEException {
 
-        var result = loginServiceImp.introspect(request);
+        var result = authenticationServiceImp.introspect(request);
 
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
