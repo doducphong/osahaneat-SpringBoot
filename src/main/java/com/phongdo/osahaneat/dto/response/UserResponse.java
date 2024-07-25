@@ -16,7 +16,6 @@ public class UserResponse {
 
     int id;
     String userName;
-    String password;
     String fullname;
     Date createDate;
     Set<RoleResponse> roles;

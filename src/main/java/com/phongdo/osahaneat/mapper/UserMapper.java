@@ -14,7 +14,6 @@ import java.util.List;
 public interface UserMapper {
     @Mapping(target = "roles",ignore = true)
     User toEntity(SignupRequest request);
-
     UserResponse toUserResponse(User user);
 
     List<UserResponse> toUserResponseList(List<User> users);

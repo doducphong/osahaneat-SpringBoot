@@ -15,7 +15,7 @@ public class SignupRequest {
 
     String fullname;
     //@Email(message = "username must be email")
-    @Size(min = 3,message = "USERNAME_INVALID")
+    @Size(min = 4,message = "USERNAME_INVALID")
     String userName;
 
     @Size(min = 8,message = "PASSWORD_INVALID")
