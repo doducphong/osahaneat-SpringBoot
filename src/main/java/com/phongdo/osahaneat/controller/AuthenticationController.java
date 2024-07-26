@@ -30,12 +30,10 @@ public class AuthenticationController {
 
     @PostMapping("/signing")
     ApiResponse<AuthenticationResponse> signing(@RequestBody LoginRequest loginRequest){
-
+        ApiResponse<AuthenticationResponse> apiResponse = new ApiResponse<>();
         var result = authenticationServiceImp.checkLogin(loginRequest);
-
-        return ApiResponse.<AuthenticationResponse>builder()
-                .result(result)
-                .build();
+        apiResponse.setResult(result);
+        return apiResponse;
     }
 
     @PostMapping("/signup")

@@ -46,7 +46,6 @@ public class UserService implements UserServiceImp {
         for (String roleName:roleNames) {
             var roleOtp = roleRepository.findByName(roleName).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED));
             roles.add(roleOtp);
-            
         }
 
         User user = new User();
