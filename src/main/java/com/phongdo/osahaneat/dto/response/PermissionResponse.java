@@ -1,6 +1,5 @@
 package com.phongdo.osahaneat.dto.response;
 
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,5 +11,4 @@ import lombok.experimental.FieldDefaults;
 public class PermissionResponse {
     String name;
     String description;
-
 }

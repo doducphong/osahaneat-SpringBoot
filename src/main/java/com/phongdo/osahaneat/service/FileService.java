@@ -1,17 +1,19 @@
 package com.phongdo.osahaneat.service;
 
-import com.phongdo.osahaneat.service.imp.FileServiceImp;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import com.phongdo.osahaneat.service.imp.FileServiceImp;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -22,26 +24,28 @@ public class FileService implements FileServiceImp {
 
     private Path root;
 
-    private void init(){
-        try{
+    private void init() {
+        try {
             root = Paths.get(rootPath);
 
             if (Files.notExists(root)) {
                 Files.createDirectories(root);
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error create folder root" + e);
         }
     }
+
     @Override
     public boolean saveFile(MultipartFile file) {
-        try{
+        try {
             init();
-            Files.copy(file.getInputStream(),this.root.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(
+                    file.getInputStream(),
+                    this.root.resolve(file.getOriginalFilename()),
+                    StandardCopyOption.REPLACE_EXISTING);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error save file" + e);
             return false;
         }
@@ -49,18 +53,16 @@ public class FileService implements FileServiceImp {
 
     @Override
     public Resource loadFile(String fileName) {
-        try{
+        try {
             init();
             Path file = root.resolve(fileName);
             Resource resource = new UrlResource(file.toUri());
             log.info("load file");
-            if(resource.exists() || resource.isReadable()){
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error load file" + e);
-
         }
         return null;
     }

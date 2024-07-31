@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class OsahaneatApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OsahaneatApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(OsahaneatApplication.class, args);
+    }
 }

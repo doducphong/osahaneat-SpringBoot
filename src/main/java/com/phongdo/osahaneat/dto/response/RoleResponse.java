@@ -1,12 +1,9 @@
 package com.phongdo.osahaneat.dto.response;
 
+import java.util.Set;
 
-import com.phongdo.osahaneat.entity.Permission;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,5 +14,4 @@ public class RoleResponse {
     String name;
     String description;
     Set<PermissionResponse> permissions;
-
 }

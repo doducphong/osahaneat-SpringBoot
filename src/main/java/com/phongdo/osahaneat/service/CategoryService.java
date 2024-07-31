@@ -1,52 +1,49 @@
 package com.phongdo.osahaneat.service;
 
-import com.phongdo.osahaneat.dto.response.CategoryDTO;
-import com.phongdo.osahaneat.entity.Category;
-import com.phongdo.osahaneat.mapper.CategoryMapper;
-import com.phongdo.osahaneat.repository.CategoryRepository;
-import com.phongdo.osahaneat.service.imp.CategoryServiceImp;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
+import com.phongdo.osahaneat.entity.Category;
+import com.phongdo.osahaneat.mapper.CategoryMapper;
+import com.phongdo.osahaneat.repository.CategoryRepository;
+import com.phongdo.osahaneat.service.imp.CategoryServiceImp;
 
 @Service
 public class CategoryService implements CategoryServiceImp {
     @Autowired
     CategoryRepository categoryRepository;
+
     @Autowired
     CategoryMapper categoryMapper;
 
-
     @Override
     public List<CategoryDTO> getCategoryHomePage() {
-        PageRequest pageRequest = PageRequest.of(0,3, Sort.by("id"));
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by("id"));
         Page<Category> listCategory = categoryRepository.findAll(pageRequest);
 
-
-        return listCategory.getContent().stream()
-                .map(categoryMapper::toDTO)
-                .collect(Collectors.toList());
+        return listCategory.getContent().stream().map(categoryMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public boolean deleteCategory(int categoryId) {
-        try{
+        try {
             Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
-            if(categoryOptional.isPresent()){
+            if (categoryOptional.isPresent()) {
                 categoryRepository.deleteById(categoryId);
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error delete category " + e);
             return false;
         }
@@ -54,22 +51,21 @@ public class CategoryService implements CategoryServiceImp {
 
     @Override
     public boolean updateCategory(int categoryId, String nameCategory) {
-        try{
+        try {
             Optional<Category> category = categoryRepository.findById(categoryId);
-            if (category.isPresent()){
+            if (category.isPresent()) {
                 Category existingCategory = category.get();
                 existingCategory.setNameCate(nameCategory);
                 categoryRepository.save(existingCategory);
                 return true;
-            }else {
+            } else {
                 return false;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error update category " + e);
             return false;
         }
-
     }
 
     @Override
@@ -79,5 +75,4 @@ public class CategoryService implements CategoryServiceImp {
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDTO(savedCategory);
     }
-
 }

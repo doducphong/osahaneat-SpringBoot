@@ -18,6 +18,4 @@ public class MenuDTO {
     String desc;
     double price;
     String timeShip;
-
-
 }

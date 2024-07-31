@@ -1,10 +1,11 @@
 package com.phongdo.osahaneat.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Set;
 
 @Getter
 @Setter
@@ -12,20 +13,24 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "food")
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
     @Column(name = "title")
     String title;
+
     @Column(name = "image")
     String image;
+
     @Column(name = "time_ship")
     String timeShip;
+
     @Column(name = "price")
     double price;
+
     @Column(name = "is_freeship")
     boolean isFreeShip;
 
@@ -41,6 +46,4 @@ public class Food {
 
     @OneToMany(mappedBy = "food")
     Set<RatingFood> listRatingFood;
-
-
 }

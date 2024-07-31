@@ -1,15 +1,14 @@
 package com.phongdo.osahaneat.mapper;
 
-import com.phongdo.osahaneat.dto.response.MenuDTO;
-import com.phongdo.osahaneat.entity.Food;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 
-import java.util.List;
+import com.phongdo.osahaneat.dto.response.MenuDTO;
+import com.phongdo.osahaneat.entity.Food;
 
 @Mapper(componentModel = "spring")
 public interface FoodMapper {
-
-
 
     Food toEntity(MenuDTO menuDTO);
 

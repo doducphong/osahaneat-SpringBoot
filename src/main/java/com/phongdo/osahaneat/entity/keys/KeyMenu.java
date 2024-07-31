@@ -1,21 +1,22 @@
 package com.phongdo.osahaneat.entity.keys;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
-import java.io.Serializable;
 
 @Embeddable
 public class KeyMenu implements Serializable {
 
     @Column(name = "cate_id")
     private int cateId;
+
     @Column(name = "restaurant_id")
     private int resId;
 
-    public KeyMenu(){}
+    public KeyMenu() {}
 
-    public KeyMenu(int cateId, int resId){
+    public KeyMenu(int cateId, int resId) {
         this.cateId = cateId;
         this.resId = resId;
     }

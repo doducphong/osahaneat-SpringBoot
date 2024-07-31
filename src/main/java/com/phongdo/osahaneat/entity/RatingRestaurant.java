@@ -1,6 +1,7 @@
 package com.phongdo.osahaneat.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "ratingRestaurant")
 public class RatingRestaurant {
     @Id
@@ -30,6 +30,4 @@ public class RatingRestaurant {
 
     @Column(name = "rate_point")
     int ratePoint;
-
-
 }

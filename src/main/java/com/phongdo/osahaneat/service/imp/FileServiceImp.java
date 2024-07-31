@@ -5,6 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileServiceImp {
     boolean saveFile(MultipartFile file);
-    Resource loadFile(String fileName);
 
+    Resource loadFile(String fileName);
 }

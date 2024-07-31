@@ -1,19 +1,21 @@
 package com.phongdo.osahaneat.service;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.phongdo.osahaneat.dto.request.RoleRequest;
 import com.phongdo.osahaneat.dto.response.RoleResponse;
 import com.phongdo.osahaneat.mapper.RoleMapper;
 import com.phongdo.osahaneat.repository.PermissionRepository;
 import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.service.imp.RoleServiceImp;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class RoleService implements RoleServiceImp {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
     PermissionRepository permissionRepository;
+
     @Override
     public RoleResponse create(RoleRequest request) {
         var role = roleMapper.toRole(request);
@@ -36,10 +39,7 @@ public class RoleService implements RoleServiceImp {
     @Override
     public List<RoleResponse> getAll() {
 
-        return roleRepository.findAll()
-                .stream()
-                .map(roleMapper::toRoleResponse)
-                .toList();
+        return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
     }
 
     @Override

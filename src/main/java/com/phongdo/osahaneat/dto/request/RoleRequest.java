@@ -1,11 +1,9 @@
 package com.phongdo.osahaneat.dto.request;
 
+import java.util.Set;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -17,5 +15,4 @@ public class RoleRequest {
     String name;
     String description;
     Set<String> permissions;
-
 }

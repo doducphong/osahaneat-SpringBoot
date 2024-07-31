@@ -1,6 +1,6 @@
 package com.phongdo.osahaneat.exception;
 
-public class AppException extends RuntimeException{
+public class AppException extends RuntimeException {
 
     public AppException(ErrorCode errorCode) {
         super(errorCode.getMessage());

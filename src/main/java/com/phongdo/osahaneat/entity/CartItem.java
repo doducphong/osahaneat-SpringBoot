@@ -1,7 +1,9 @@
 package com.phongdo.osahaneat.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,7 +29,4 @@ public class CartItem {
     int quantity;
 
     Long totalPrice;
-
-
-
 }

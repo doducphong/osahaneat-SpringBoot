@@ -1,28 +1,28 @@
 package com.phongdo.osahaneat.mapper;
 
-import com.phongdo.osahaneat.dto.response.CategoryDTO;
-import com.phongdo.osahaneat.entity.Category;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.util.List;
+import com.phongdo.osahaneat.dto.response.CategoryDTO;
+import com.phongdo.osahaneat.entity.Category;
 
 @Mapper(componentModel = "spring", uses = FoodMapper.class)
 public interface CategoryMapper {
 
-
     @Mappings({
-            @Mapping(source = "nameCate", target = "name"),
-            @Mapping(target = "menus", source = "listFood"),
+        @Mapping(source = "nameCate", target = "name"),
+        @Mapping(target = "menus", source = "listFood"),
     })
     CategoryDTO toDTO(Category category);
 
     List<CategoryDTO> toDTOList(List<Category> categories);
 
     @Mappings({
-            @Mapping(source = "name", target = "nameCate"),
-            @Mapping(target = "listFood", source = "menus"),
+        @Mapping(source = "name", target = "nameCate"),
+        @Mapping(target = "listFood", source = "menus"),
     })
     Category toEntity(CategoryDTO categoryDTO);
 }

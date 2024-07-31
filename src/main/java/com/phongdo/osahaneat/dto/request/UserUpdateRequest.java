@@ -1,12 +1,9 @@
 package com.phongdo.osahaneat.dto.request;
 
-import com.phongdo.osahaneat.dto.response.RoleResponse;
+import java.util.List;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor

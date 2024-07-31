@@ -1,10 +1,10 @@
 package com.phongdo.osahaneat.dto.response;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Date;
 import java.util.Set;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -19,7 +19,4 @@ public class UserResponse {
     String fullname;
     Date createDate;
     Set<RoleResponse> roles;
-
-
-
 }

@@ -1,6 +1,5 @@
 package com.phongdo.osahaneat.dto.request;
 
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,5 +11,4 @@ import lombok.experimental.FieldDefaults;
 public class PermissionRequest {
     String name;
     String description;
-
 }

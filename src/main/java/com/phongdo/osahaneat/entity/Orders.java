@@ -1,11 +1,12 @@
 package com.phongdo.osahaneat.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Date;
 import java.util.Set;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -13,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "orders")
 public class Orders {
     @Id
@@ -22,7 +22,6 @@ public class Orders {
 
     @OneToMany(mappedBy = "orders")
     Set<OrderItem> listOrderItem;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -34,6 +33,4 @@ public class Orders {
 
     @Column(name = "create_date")
     Date createDate;
-
-
 }

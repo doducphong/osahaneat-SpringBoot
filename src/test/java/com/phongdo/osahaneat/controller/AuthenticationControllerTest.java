@@ -1,15 +1,9 @@
 package com.phongdo.osahaneat.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.phongdo.osahaneat.dto.request.LoginRequest;
-import com.phongdo.osahaneat.dto.request.SignupRequest;
-import com.phongdo.osahaneat.dto.response.AuthenticationResponse;
-import com.phongdo.osahaneat.dto.response.PermissionResponse;
-import com.phongdo.osahaneat.dto.response.RoleResponse;
-import com.phongdo.osahaneat.dto.response.UserResponse;
-import com.phongdo.osahaneat.service.AuthenticationService;
-import com.phongdo.osahaneat.service.UserService;
-import com.phongdo.osahaneat.service.imp.AuthenticationServiceImp;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -24,9 +18,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.phongdo.osahaneat.dto.request.LoginRequest;
+import com.phongdo.osahaneat.dto.request.SignupRequest;
+import com.phongdo.osahaneat.dto.response.AuthenticationResponse;
+import com.phongdo.osahaneat.dto.response.PermissionResponse;
+import com.phongdo.osahaneat.dto.response.RoleResponse;
+import com.phongdo.osahaneat.dto.response.UserResponse;
+import com.phongdo.osahaneat.service.AuthenticationService;
+import com.phongdo.osahaneat.service.UserService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +42,6 @@ public class AuthenticationControllerTest {
     @MockBean
     private AuthenticationService authenticationService;
 
-
     private SignupRequest request;
     private UserResponse response;
     private LoginRequest loginRequest;
@@ -52,9 +51,8 @@ public class AuthenticationControllerTest {
     private Set<RoleResponse> roleResponseSet;
     private Set<PermissionResponse> permissionResponses;
 
-
     @BeforeEach
-    void initData(){
+    void initData() {
         createTime = new Date();
         roleNames = new HashSet<>();
         roleResponseSet = new HashSet<>();
@@ -89,10 +87,8 @@ public class AuthenticationControllerTest {
                 .roles(roleResponseSet)
                 .build();
 
-        loginRequest = LoginRequest.builder()
-                .username("admin")
-                .password("admin")
-                .build();
+        loginRequest =
+                LoginRequest.builder().username("admin").password("admin").build();
 
         authenticationResponse = AuthenticationResponse.builder()
                 .authenticated(true)
@@ -108,13 +104,11 @@ public class AuthenticationControllerTest {
 
         Mockito.when(userService.addUser(ArgumentMatchers.any())).thenReturn(response);
         // When, Then
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("http://localhost:8080/auth/signup")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(content))
+        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("code").value(1000)
-        );
+                .andExpect(MockMvcResultMatchers.jsonPath("code").value(1000));
     }
 
     @Test
@@ -125,14 +119,12 @@ public class AuthenticationControllerTest {
         String content = objectMapper.writeValueAsString(request);
 
         // When, Then
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("http://localhost:8080/auth/signup")
+        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value(1003))
-                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Username must be at least 4 characters")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("message").value("Username must be at least 4 characters"));
     }
 
     @Test
@@ -143,14 +135,13 @@ public class AuthenticationControllerTest {
 
         Mockito.when(authenticationService.checkLogin(ArgumentMatchers.any())).thenReturn(authenticationResponse);
         // When, Then
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("http://localhost:8080/auth/signing")
+        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/auth/signing")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("code").value(1000))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.authenticated").value(true))
-                .andExpect(MockMvcResultMatchers.jsonPath("result.token").value("eyJhbGciOiJIUzUxMiJ9")
-                );
+                .andExpect(
+                        MockMvcResultMatchers.jsonPath("result.authenticated").value(true))
+                .andExpect(MockMvcResultMatchers.jsonPath("result.token").value("eyJhbGciOiJIUzUxMiJ9"));
     }
 }

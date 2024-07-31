@@ -13,5 +13,4 @@ public class OrderRequest {
     int userId;
     int resId;
     int[] foodIds;
-
 }

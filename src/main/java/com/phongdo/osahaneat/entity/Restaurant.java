@@ -1,12 +1,12 @@
 package com.phongdo.osahaneat.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Date;
 import java.util.Set;
 
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -44,18 +44,12 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     Set<Promo> listPromo;
 
-
-
     @OneToMany(mappedBy = "restaurant")
     Set<MenuRestaurant> listMenu;
-
 
     @OneToMany(mappedBy = "restaurant")
     Set<Orders> listOrders;
 
-
     @OneToMany(mappedBy = "restaurant")
     Set<RatingRestaurant> listRatingRestaurant;
-
-
 }

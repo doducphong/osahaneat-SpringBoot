@@ -1,10 +1,11 @@
 package com.phongdo.osahaneat.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.Date;
 
 @Getter
 @Setter
@@ -12,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "promo")
 public class Promo {
     @Id
@@ -31,6 +31,4 @@ public class Promo {
 
     @Column(name = "end_date")
     Date endDate;
-
-
 }

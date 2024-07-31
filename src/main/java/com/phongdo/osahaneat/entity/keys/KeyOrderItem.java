@@ -1,9 +1,9 @@
 package com.phongdo.osahaneat.entity.keys;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
-import java.io.Serializable;
 
 @Embeddable
 public class KeyOrderItem implements Serializable {
@@ -13,9 +13,9 @@ public class KeyOrderItem implements Serializable {
     @Column(name = "food_id")
     private int foodId;
 
-    public KeyOrderItem(){}
+    public KeyOrderItem() {}
 
-    public KeyOrderItem(int orderId, int foodId){
+    public KeyOrderItem(int orderId, int foodId) {
         this.foodId = foodId;
         this.orderId = orderId;
     }

@@ -1,11 +1,12 @@
 package com.phongdo.osahaneat.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Date;
 import java.util.Set;
+
+import jakarta.persistence.*;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
@@ -13,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 @Entity(name = "category")
 public class Category {
 
@@ -23,6 +23,7 @@ public class Category {
 
     @Column(name = "name_cate")
     String nameCate;
+
     @Column(name = "create_date")
     Date createDate;
 
@@ -31,6 +32,4 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     Set<Food> listFood;
-
-
 }
