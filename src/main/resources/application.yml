@@ -21,4 +21,10 @@ jwt:
   refreshable-duration: 360000 # in second
 
 fileUpload:
-  rootPath: E:\uploads
+  rootPath: D:\uploads
+
+amazonProperties:
+  endpointUrl: https://s3.ap-southeast-1.amazonaws.com
+  accessKey: ${ACCESSKEY}
+  secretKey: ${SECRETKEY}
+  bucketName: uploadfileimage
