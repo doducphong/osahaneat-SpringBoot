@@ -24,7 +24,7 @@ import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.dto.response.PermissionResponse;
 import com.phongdo.osahaneat.dto.response.RoleResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
-import com.phongdo.osahaneat.entity.Role;
+import com.phongdo.osahaneat.domain.entity.Role;
 import com.phongdo.osahaneat.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;

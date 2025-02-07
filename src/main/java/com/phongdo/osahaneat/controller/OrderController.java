@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.phongdo.osahaneat.dto.request.OrderRequest;
 import com.phongdo.osahaneat.dto.response.ResponseData;
-import com.phongdo.osahaneat.service.imp.OrderServiceImp;
+import com.phongdo.osahaneat.service.OrderService;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
 
     @Autowired
-    OrderServiceImp orderServiceImp;
+    OrderService orderService;
 
     @PostMapping()
     public ResponseEntity<?> insertOrder(@RequestBody OrderRequest orderRequest) {
         ResponseData responseData = new ResponseData();
-        responseData.setData(orderServiceImp.insertOrder(orderRequest));
+        responseData.setData(orderService.insertOrder(orderRequest));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 }

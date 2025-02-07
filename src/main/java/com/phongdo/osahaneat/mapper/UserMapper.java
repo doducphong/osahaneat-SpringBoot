@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 import com.phongdo.osahaneat.dto.request.SignupRequest;
 import com.phongdo.osahaneat.dto.request.UserUpdateRequest;
 import com.phongdo.osahaneat.dto.response.UserResponse;
-import com.phongdo.osahaneat.entity.User;
+import com.phongdo.osahaneat.domain.entity.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

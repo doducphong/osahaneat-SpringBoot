@@ -25,8 +25,8 @@ import com.phongdo.osahaneat.dto.response.AuthenticationResponse;
 import com.phongdo.osahaneat.dto.response.PermissionResponse;
 import com.phongdo.osahaneat.dto.response.RoleResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
-import com.phongdo.osahaneat.service.AuthenticationService;
-import com.phongdo.osahaneat.service.UserService;
+import com.phongdo.osahaneat.service.imp.AuthenticationServiceImpl;
+import com.phongdo.osahaneat.service.imp.UserServiceImpl;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,10 +37,10 @@ public class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @MockBean
-    private AuthenticationService authenticationService;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     private SignupRequest request;
     private UserResponse response;
@@ -102,7 +102,7 @@ public class AuthenticationControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String content = objectMapper.writeValueAsString(request);
 
-        Mockito.when(userService.addUser(ArgumentMatchers.any())).thenReturn(response);
+        Mockito.when(userServiceImpl.addUser(ArgumentMatchers.any())).thenReturn(response);
         // When, Then
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -133,7 +133,7 @@ public class AuthenticationControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String content = objectMapper.writeValueAsString(loginRequest);
 
-        Mockito.when(authenticationService.checkLogin(ArgumentMatchers.any())).thenReturn(authenticationResponse);
+        Mockito.when(authenticationServiceImpl.checkLogin(ArgumentMatchers.any())).thenReturn(authenticationResponse);
         // When, Then
         mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/auth/signing")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

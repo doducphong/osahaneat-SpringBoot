@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.phongdo.osahaneat.dto.response.ResponseData;
-import com.phongdo.osahaneat.service.MenuService;
-import com.phongdo.osahaneat.service.imp.FileServiceImp;
+import com.phongdo.osahaneat.service.imp.MenuServiceImpl;
+import com.phongdo.osahaneat.service.FileService;
 
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
 
     @Autowired
-    MenuService menuService;
+    MenuServiceImpl menuServiceImpl;
 
     @Autowired
-    FileServiceImp fileServiceImp;
+    FileService fileService;
 
     @PostMapping()
     public ResponseEntity<?> createMenu(
@@ -33,13 +33,13 @@ public class MenuController {
             @RequestParam int cate_id) {
 
         ResponseData responseData = new ResponseData();
-        responseData.setData(menuService.createMenu(file, title, is_freeship, time_ship, price, cate_id));
+        responseData.setData(menuServiceImpl.createMenu(file, title, is_freeship, time_ship, price, cate_id));
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @GetMapping("/file/{filename:.+}")
     public ResponseEntity<?> getFileMenu(@PathVariable String filename) {
-        Resource resource = fileServiceImp.loadFile(filename);
+        Resource resource = fileService.loadFile(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);

@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.phongdo.osahaneat.dto.request.RoleRequest;
 import com.phongdo.osahaneat.dto.response.RoleResponse;
-import com.phongdo.osahaneat.entity.Role;
+import com.phongdo.osahaneat.domain.entity.Role;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {

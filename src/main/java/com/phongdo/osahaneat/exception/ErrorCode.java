@@ -9,6 +9,7 @@ import lombok.Getter;
 public enum ErrorCode {
     UNCATEGORIZED(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     USER_EXISTED(1002, "User existed", HttpStatus.BAD_REQUEST),
+    RESTAURANT_NOT_EXISTED(1009, "Restaurant not existed", HttpStatus.BAD_REQUEST),
     INVALID_KEY(1001, "Invalid message key", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(1003, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
     PASSWORD_INVALID(1004, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),

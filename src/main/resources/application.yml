@@ -12,19 +12,30 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
   servlet:
-    multipart:
-      max-file-size: 10MB
+    servlet:
+      multipart:
+        enabled: true
+        max-file-size: 5MB
+        max-request-size: 10MB
+        file-size-threshold: 2MB
 
 jwt:
-  privateKey: "WAsss5qr9rFemxqyamr2IpWvKYO6fPGwI+r4dsikI6fi9x6UOE0iP8NOBBjYo7l/"
+  privateKey: ${PRIVATE_KEY}
   valid-duration: 3600 #in second
   refreshable-duration: 360000 # in second
 
 fileUpload:
   rootPath: D:\uploads
 
-amazonProperties:
-  endpointUrl: https://s3.ap-southeast-1.amazonaws.com
-  accessKey: ${ACCESSKEY}
-  secretKey: ${SECRETKEY}
-  bucketName: uploadfileimage
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    region:
+      static: ap-southeast-1
+    endpointUrl: https://s3.ap-southeast-1.amazonaws.com
+
+application:
+  bucket:
+    name: uploadfileimage

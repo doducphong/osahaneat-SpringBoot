@@ -12,8 +12,8 @@ import com.phongdo.osahaneat.dto.response.ApiResponse;
 import com.phongdo.osahaneat.dto.response.AuthenticationResponse;
 import com.phongdo.osahaneat.dto.response.IntrospectResponse;
 import com.phongdo.osahaneat.dto.response.UserResponse;
-import com.phongdo.osahaneat.service.imp.AuthenticationServiceImp;
-import com.phongdo.osahaneat.service.imp.UserServiceImp;
+import com.phongdo.osahaneat.service.AuthenticationService;
+import com.phongdo.osahaneat.service.UserService;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthenticationController {
 
-    AuthenticationServiceImp authenticationServiceImp;
+    AuthenticationService authenticationService;
 
-    UserServiceImp userServiceImp;
+    UserService userService;
 
     @PostMapping("/signing")
     ApiResponse<AuthenticationResponse> signing(@RequestBody LoginRequest loginRequest) {
         ApiResponse<AuthenticationResponse> apiResponse = new ApiResponse<>();
-        var result = authenticationServiceImp.checkLogin(loginRequest);
+        var result = authenticationService.checkLogin(loginRequest);
         apiResponse.setResult(result);
         return apiResponse;
     }
@@ -43,7 +43,7 @@ public class AuthenticationController {
     ApiResponse<UserResponse> signup(@RequestBody @Valid SignupRequest signupRequest) {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(userServiceImp.addUser(signupRequest));
+        apiResponse.setResult(userService.addUser(signupRequest));
 
         return apiResponse;
     }
@@ -52,7 +52,7 @@ public class AuthenticationController {
     ApiResponse<IntrospectResponse> introspect(@RequestBody @Valid IntrospectRequest request)
             throws ParseException, JOSEException {
 
-        var result = authenticationServiceImp.introspect(request);
+        var result = authenticationService.introspect(request);
 
         return ApiResponse.<IntrospectResponse>builder().result(result).build();
     }
@@ -60,7 +60,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     ApiResponse<Void> logout(@RequestBody @Valid LogoutRequest request) throws ParseException, JOSEException {
 
-        authenticationServiceImp.logout(request);
+        authenticationService.logout(request);
 
         return ApiResponse.<Void>builder().build();
     }
@@ -69,7 +69,7 @@ public class AuthenticationController {
     ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request)
             throws ParseException, JOSEException {
 
-        var result = authenticationServiceImp.refreshToken(request);
+        var result = authenticationService.refreshToken(request);
 
         return ApiResponse.<AuthenticationResponse>builder().result(result).build();
     }

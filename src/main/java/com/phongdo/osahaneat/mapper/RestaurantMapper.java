@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.phongdo.osahaneat.dto.response.RestaurantDTO;
-import com.phongdo.osahaneat.entity.Restaurant;
+import com.phongdo.osahaneat.domain.entity.Restaurant;
 
 @Mapper(
         componentModel = "spring",

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.nimbusds.jose.JOSEException;
 import com.phongdo.osahaneat.dto.request.IntrospectRequest;
-import com.phongdo.osahaneat.service.AuthenticationService;
+import com.phongdo.osahaneat.service.imp.AuthenticationServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,14 +26,14 @@ public class CustomJwtDecoder implements JwtDecoder {
     private String signerKey;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     private NimbusJwtDecoder nimbusJwtDecoder = null;
 
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-            var response = authenticationService.introspect(
+            var response = authenticationServiceImpl.introspect(
                     IntrospectRequest.builder().token(token).build());
 
             if (!response.isValid()) throw new JwtException("Token invalid");

@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.phongdo.osahaneat.dto.response.CategoryDTO;
-import com.phongdo.osahaneat.entity.Category;
+import com.phongdo.osahaneat.domain.entity.Category;
 
 @Mapper(componentModel = "spring", uses = FoodMapper.class)
 public interface CategoryMapper {

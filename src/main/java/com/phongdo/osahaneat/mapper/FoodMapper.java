@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 
 import com.phongdo.osahaneat.dto.response.MenuDTO;
-import com.phongdo.osahaneat.entity.Food;
+import com.phongdo.osahaneat.domain.entity.Food;
 
 @Mapper(componentModel = "spring")
 public interface FoodMapper {
