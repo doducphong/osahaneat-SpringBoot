@@ -1,68 +1,61 @@
 package com.phongdo.osahaneat.configuration;
 
-import com.phongdo.osahaneat.domain.constant.PredefinedRole;
 import com.phongdo.osahaneat.domain.entity.Role;
 import com.phongdo.osahaneat.domain.entity.User;
 import com.phongdo.osahaneat.repository.RoleRepository;
 import com.phongdo.osahaneat.repository.UserRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Configuration
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
 @Slf4j
-public class ApplicationInitConfiguration {
+@Order(2)
+public class ApplicationInitConfiguration implements CommandLineRunner {
 
-    PasswordEncoder passwordEncoder;
-    @NonFinal
-    static final String ADMIN_USER_NAME = "admin";
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    @Value("${user-admin.email}")
+    private String adminEmail;
 
-    @NonFinal
-    static final String ADMIN_PASSWORD = "admin";
+    @Value("${user-admin.password}")
+    private String adminPassword;
 
-    @Bean
-    @ConditionalOnProperty(
-            prefix = "spring",
-            value = "spring.datasource.driver-class-name",
-            havingValue = "com.mysql.cj.jdbc.Driver")
-    ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
-        log.info("Initializing application.....");
-        return args -> {
-            if (userRepository.findByUserName(ADMIN_USER_NAME).isEmpty()) {
-                roleRepository.save(Role.builder()
-                        .name(PredefinedRole.USER_ROLE)
-                        .description("User role")
-                        .build());
+    public ApplicationInitConfiguration(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
-                Role adminRole = roleRepository.save(Role.builder()
-                        .name(PredefinedRole.ADMIN_ROLE)
-                        .description("Admin role")
-                        .build());
+    @Override
+    public void run(String... args) throws Exception {
+        User user = userRepository.findByUserName(adminEmail).orElse(
+                User.builder().userName(adminEmail).password(passwordEncoder.encode(adminPassword)).build()
+        );
+        userRepository.save(user);
 
-                var roles = new HashSet<Role>();
-                roles.add(adminRole);
+        List<Role> roles = roleRepository.findAll();
 
-                User user = User.builder()
-                        .userName(ADMIN_USER_NAME)
-                        .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                        .roles(roles)
-                        .build();
+        List<Role> userRoles = roleRepository.findAllByUserId(user.getId());
+        Set<String> existingRoleIds = userRoles.stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
 
-                userRepository.save(user);
-                log.warn("admin user has been created with default password: admin, please change it");
-            }
-            log.info("Application initialization completed .....");
-        };
+        List<Role> newUserRoles = roles.stream()
+                .filter(role -> !existingRoleIds.contains(role.getName())) // Lọc các role chưa có
+                .map(role -> Role.builder().name(role.getName()).build()) // Tạo UserRole mới
+                .toList();
+
+        if (!newUserRoles.isEmpty()) {
+            roleRepository.saveAll(newUserRoles);
+        }
     }
 }
